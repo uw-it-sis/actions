@@ -6,7 +6,7 @@ inputs:
     required: true
     default: 'Bar'
 outputs:
-  time: # id of output
+  word: # id of output
     description: 'The time we greeted you'
 runs:
   using: 'docker'
