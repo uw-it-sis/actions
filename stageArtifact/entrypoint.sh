@@ -24,6 +24,7 @@ fi
 # Get into the correct directory.
 #
 cd $WORKDIR
+ls -al
 
 #
 # Get the branch name
@@ -86,4 +87,4 @@ fi
 #
 # Copy the artifact to the S3 bucket.
 #
-aws s3 cp $ARTIFACT s3://${_BUCKET}/$_OBJECT_NAME
+aws s3 cp ${ARTIFACT} s3://${_BUCKET}/$_OBJECT_NAME
