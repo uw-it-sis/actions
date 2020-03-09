@@ -5,8 +5,13 @@ FROM alpine:3.10
 COPY entrypoint.sh /entrypoint.sh
 
 # Install bash, so that the shell code is consistent.
-RUN apk add --no-cache bash
-RUN apk add --no-cache jq
+RUN apk -v --update add --no-cache \
+    bash \
+    jq \
+    python \
+    py-pip
+    && \
+    pip install --upgrade awscli
 
 #  Code file to execute when the docker container starts up (`entrypoint.sh`)
 ENTRYPOINT ["/bin/bash", "/entrypoint.sh"]
