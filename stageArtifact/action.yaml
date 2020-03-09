@@ -1,6 +1,9 @@
 name: 'Stage Artifact'
 description: 'Copies a JS artifact to the appropriate S3 bucket so that it's available for deployment.'
 inputs:
+  workdir: # id of output
+    description: 'The directory to work from. Can be relative or absolute.'
+    default: './'
   bucketBase: # id of output
     description: 'The base name of the S3 buckets'
     required: true
@@ -14,6 +17,7 @@ runs:
   using: 'docker'
   image: 'Dockerfile'
   args:
+    - ${{ inputs.workdir }}
     - ${{ inputs.bucketBase }}
     - ${{ inputs.artifact }}
     - ${{ inputs.repoOverride }}

@@ -3,9 +3,10 @@
 #
 # Gather args ...
 #
-ARTIFACT_BUCKET_BASE=$1
-ARTIFACT=$2
-REPO_OVERRIDE=$3
+WORKDIR=$1
+ARTIFACT_BUCKET_BASE=$2
+ARTIFACT=$3
+REPO_OVERRIDE=$4
 
 #
 # Determine the repo name. If no override is provided then get the name from the GitHub built-in: GITHUB_REPOSITORY
@@ -14,6 +15,11 @@ if [ $REPO_OVERRIDE = "unset" ]; then
   # This regex expects a / e.g. uw-it-sis/repo-name
   [[ $GITHUB_REPOSITORY =~ /(.*) ]] && REPO_NAME = ${BASH_REMATCH[1]}
 fi
+
+#
+# Get into the correct directory.
+#
+cd $WORKDIR
 
 #
 # Get the branch name
