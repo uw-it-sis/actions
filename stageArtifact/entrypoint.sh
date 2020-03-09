@@ -38,17 +38,17 @@ case "$_BRANCH" in
     "master")
       # Master goes to the unqualified bucket.
       # echo "::set-env name=_BUCKET::$ARTIFACT_BUCKET_BASE"
-      _BUCKET=$ARTIFACT_BUCKET_BASE
+      export _BUCKET=$ARTIFACT_BUCKET_BASE
       ;;
     "development")
       # Development goes to the dev bucket.
       #echo "::set-env name=_BUCKET::$ARTIFACT_BUCKET_BASE-dev"
-      _BUCKET="${ARTIFACT_BUCKET_BASE}-dev"
+      export _BUCKET="${ARTIFACT_BUCKET_BASE}-dev"
       ;;
     *)
       # Evaluation and Patch both go to the eval bucket
       #echo "::set-env name=_BUCKET::${ARTIFACT_BUCKET_BASE}-eval"
-      _BUCKET="${ARTIFACT_BUCKET_BASE}-eval"
+      export _BUCKET="${ARTIFACT_BUCKET_BASE}-eval"
       ;;
 esac
 # Write the bucket name to outputs.
