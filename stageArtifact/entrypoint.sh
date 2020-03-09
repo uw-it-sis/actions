@@ -13,7 +13,9 @@ REPO_OVERRIDE=$4
 #
 if [ "$REPO_OVERRIDE" = "unset" ]; then
   # This regex expects a / e.g. uw-it-sis/repo-name
-  [ "${GITHUB_REPOSITORY}" =~ /(.*) ] && REPO_NAME=${BASH_REMATCH[1]}
+  # [[ "${GITHUB_REPOSITORY}" =~ /(.*) ]] && REPO_NAME=${BASH_REMATCH[1]}
+  # [[ "${GITHUB_REPOSITORY}" =~ /(.*) ]] && REPO_NAME=${BASH_REMATCH[1]}
+  REPO_NAME="fooz"
 fi
 
 #
