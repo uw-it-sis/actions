@@ -1,5 +1,5 @@
 name: 'Stage Artifact'
-description: 'Copies a JS artifact to the appropriate S3 bucket so that it's available for deployment.'
+description: "Copies a JS artifact to the appropriate S3 bucket so that it's available for deployment."
 inputs:
   workdir: # id of output
     description: 'The directory to work from. Can be relative or absolute.'
