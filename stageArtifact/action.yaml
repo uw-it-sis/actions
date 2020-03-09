@@ -15,5 +15,5 @@ runs:
   image: 'Dockerfile'
   args:
     - ${{ inputs.bucketBase }}
-    - ${{ inputs.artifactName }}
+    - ${{ inputs.artifact }}
     - ${{ inputs.repoOverride }}
