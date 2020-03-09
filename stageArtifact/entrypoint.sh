@@ -14,7 +14,7 @@ REPO_OVERRIDE=$4
 if [ "$REPO_OVERRIDE" = "unset" ]; then
   # This regex expects a / e.g. uw-it-sis/repo-name
   # [[ "${GITHUB_REPOSITORY}" =~ /(.*) ]] && REPO_NAME=${BASH_REMATCH[1]}
-  REPO_NAME=(`echo $GITHUB_REPOSITORY | grep -E "/(.*)"`)
+  REPO_NAME=(`echo $GITHUB_REPOSITORY | cut -d\/ -f2`)
   if [ "${REPO_NAME}" = "" ]; then
     echo "Couldn't parse repo name from [${GITHUB_REPOSITORY}]"
     exit 1
