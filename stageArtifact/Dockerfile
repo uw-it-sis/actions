@@ -6,10 +6,10 @@ COPY entrypoint.sh /entrypoint.sh
 
 # Install bash, so that the shell code is consistent.
 RUN apk -v --update add --no-cache \
-    bash \
-    jq \
-    python \
-    py-pip
+        bash \
+        jq \
+        python \
+        py-pip \
     && \
     pip install --upgrade awscli
 
