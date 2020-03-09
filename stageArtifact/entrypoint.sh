@@ -8,8 +8,6 @@ ARTIFACT_BUCKET_BASE=$2
 ARTIFACT=$3
 REPO_OVERRIDE=$4
 
-jq
-
 #
 # Determine the repo name. If no override is provided then get the name from the GitHub built-in: GITHUB_REPOSITORY
 #
@@ -63,7 +61,7 @@ echo "::set-env name=artifactBucket::${_BUCKET}"
 #
 # Get the version
 #
-export _VERSION=`(npm ls --depth=-1 | cut -s -d "@" -f 3 | cut -d " " -f1)`
+export _VERSION=`jq -r .version package.json`
 echo "::set-env name=version::$_VERSION"
 
 #export _OBJECT_NAME="${REPO_NAME}/${_VERSION}/${ARTIFACT}"
