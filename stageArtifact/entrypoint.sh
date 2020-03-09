@@ -8,6 +8,8 @@ ARTIFACT_BUCKET_BASE=$2
 ARTIFACT=$3
 REPO_OVERRIDE=$4
 
+jq
+
 #
 # Determine the repo name. If no override is provided then get the name from the GitHub built-in: GITHUB_REPOSITORY
 #
