@@ -25,11 +25,12 @@ cd $WORKDIR
 # Get the branch name
 # https://github.community/t5/GitHub-Actions/Wrong-branch-displayed-for-workflow/m-p/37985#M3178
 #
-_BRANCH=`(echo ${GITHUB_REF} | cut -d\/ -f3)`
+export _BRANCH=`(echo ${GITHUB_REF} | cut -d\/ -f3)`
 #
 # Make _BRACH available in subsequent steps/jobs.
 #
-#echo "::set-env name=_BRANCH::$_BRANCH"
+echo "::set-env name=branch::$_BRANCH"
+
 #
 # Set the artifact bucket name based on the branch.
 #
@@ -50,16 +51,19 @@ case "$_BRANCH" in
       _BUCKET="${ARTIFACT_BUCKET_BASE}-eval"
       ;;
 esac
+# Write the bucket name to outputs.
+echo "::set-env name=artifactBucket::${_BUCKET}"
 
 #
 # Get the version
 #
 export _VERSION=`(npm ls --depth=-1 | cut -s -d "@" -f 3 | cut -d " " -f1)`
-#echo "::set-env name=_VERSION::$_VERSION"
+echo "::set-env name=version::$_VERSION"
 
-#_OBJECT_NAME="${REPO_NAME}/${_VERSION}/${ARTIFACT}"
+#export _OBJECT_NAME="${REPO_NAME}/${_VERSION}/${ARTIFACT}"
 # FIXME: Hard override for testing.
-_OBJECT_NAME="bb-spa/1.0.0/course-ui.tgz"
+export _OBJECT_NAME="bb-spa/1.0.0/course-ui.tgz"
+echo "::set-env name=s3Object::$_OBJECT_NAME"
 
 #
 # Artifacts in the release/master bucket should not be overwritten, so check and fail if it does.
