@@ -12,8 +12,7 @@ REPO_OVERRIDE=$4
 # Determine the repo name. If no override is provided then get the name from the GitHub built-in: GITHUB_REPOSITORY
 #
 if [ "$REPO_OVERRIDE" = "unset" ]; then
-  # This regex expects a / e.g. uw-it-sis/repo-name
-  # [[ "${GITHUB_REPOSITORY}" =~ /(.*) ]] && REPO_NAME=${BASH_REMATCH[1]}
+  # This regex expects
   REPO_NAME=(`echo $GITHUB_REPOSITORY | cut -d\/ -f2`)
   if [ "${REPO_NAME}" = "" ]; then
     echo "Couldn't parse repo name from [${GITHUB_REPOSITORY}]"
