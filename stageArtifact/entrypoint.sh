@@ -87,4 +87,5 @@ fi
 #
 # Copy the artifact to the S3 bucket.
 #
-aws s3 cp ${ARTIFACT} s3://${_BUCKET}/$_OBJECT_NAME
+echo "ARTIFACT: ${ARTIFACT}"
+aws s3 cp "${WORKDIR}${ARTIFACT}" s3://${_BUCKET}/$_OBJECT_NAME
