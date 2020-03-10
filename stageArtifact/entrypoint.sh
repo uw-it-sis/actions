@@ -8,6 +8,11 @@ ARTIFACT_BUCKET_BASE=$2
 ARTIFACT=$3
 REPO_OVERRIDE=$4
 
+echo WD: $WORKDIR
+echo "BB: ${ARTIFACT_BUCKET_BASE}"
+echo "ARTIFACT: ${ARTIFACT}"
+echo "RO: " $ARTIFACT
+
 #
 # Determine the repo name. If no override is provided then get the name from the GitHub built-in: GITHUB_REPOSITORY
 #
@@ -24,7 +29,6 @@ fi
 # Get into the correct directory.
 #
 cd $WORKDIR
-ls -al
 
 #
 # Get the branch name
@@ -87,5 +91,4 @@ fi
 #
 # Copy the artifact to the S3 bucket.
 #
-echo "ARTIFACT: ${ARTIFACT}"
-aws s3 cp "${WORKDIR}${ARTIFACT}" s3://${_BUCKET}/$_OBJECT_NAME
+aws s3 cp $ARTIFACT s3://${_BUCKET}/$_OBJECT_NAME
