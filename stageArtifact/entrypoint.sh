@@ -63,13 +63,18 @@ echo "::set-output name=artifactBucket::${_BUCKET}"
 #
 # Get the version
 #
+if [ ! -f "package.json" ]; then
+    echo "There was no package.json in ${WORKDIR}."
+    exit 1
+fi
 export _VERSION=`jq -r .version package.json`
 echo "::set-env name=version::$_VERSION"
 echo "::set-output name=version::${_VERSION}"
 
-#export _OBJECT_NAME="${REPO_NAME}/${_VERSION}/${ARTIFACT}"
-# FIXME: Hard override for testing.
-export _OBJECT_NAME="bb-spa/1.0.0/course-ui.tgz"
+#
+# Put together the object name for the upload.
+#
+export _OBJECT_NAME="${REPO_NAME}/${_VERSION}/${ARTIFACT}"
 echo "::set-env name=s3Object::$_OBJECT_NAME"
 echo "::set-output name=s3Object::${_OBJECT_NAME}"
 
@@ -79,8 +84,8 @@ echo "::set-output name=s3Object::${_OBJECT_NAME}"
 if [ ${_BRANCH} = "master" ]; then
   aws s3api head-object --bucket $_BUCKET --key $_OBJECT_NAME &>/dev/null
   retVal=$?
-  # The exit code will be 255 if the artifact is 404 and 0 if it exists. Note: The space between the bracket and
-  # the $ is very important.
+  # The exit code will be 255 if the artifact does not exist or 0 if it exists.
+  # Note: The space between the bracket and the $ is very important.
   if [ $retVal -eq 0 ]; then
      echo  "${_BUCKET}/${_OBJECT_NAME} already exists and cannot be overwritten by this job."
      exit 1
@@ -90,5 +95,4 @@ fi
 #
 # Copy the artifact to the S3 bucket.
 #
-echo "Copying [${ARTIFACT}] to ${_BUCKET}/$_OBJECT_NAME"
 aws s3 cp $ARTIFACT s3://${_BUCKET}/$_OBJECT_NAME
