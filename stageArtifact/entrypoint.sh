@@ -8,11 +8,6 @@ ARTIFACT_BUCKET_BASE=$2
 ARTIFACT=$3
 REPO_OVERRIDE=$4
 
-echo WD: $WORKDIR
-echo "BB: ${ARTIFACT_BUCKET_BASE}"
-echo "ARTIFACT: ${ARTIFACT}"
-echo "RO: " $ARTIFACT
-
 #
 # Determine the repo name. If no override is provided then get the name from the GitHub built-in: GITHUB_REPOSITORY
 #
