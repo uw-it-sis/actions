@@ -8,11 +8,6 @@ ARTIFACT_BUCKET_BASE=$2
 ARTIFACT=$3
 REPO_OVERRIDE=$4
 
-echo WD: $WORKDIR
-echo "BB: ${ARTIFACT_BUCKET_BASE}"
-echo "ARTIFACT: ${ARTIFACT}"
-echo "RO: " $ARTIFACT
-
 #
 # Determine the repo name. If no override is provided then get the name from the GitHub built-in: GITHUB_REPOSITORY
 #
@@ -38,7 +33,8 @@ export _BRANCH=`(echo ${GITHUB_REF} | cut -d\/ -f3)`
 #
 # Make _BRACH available in subsequent steps/jobs.
 #
-echo "::set-env name=branch::$_BRANCH"
+echo "::set-env name=branch::${_BRANCH}"
+echo "::set-output name=branch::${_BRANCH}"
 
 #
 # Set the artifact bucket name based on the branch.
@@ -62,17 +58,20 @@ case "$_BRANCH" in
 esac
 # Write the bucket name to outputs.
 echo "::set-env name=artifactBucket::${_BUCKET}"
+echo "::set-output name=artifactBucket::${_BUCKET}"
 
 #
 # Get the version
 #
 export _VERSION=`jq -r .version package.json`
 echo "::set-env name=version::$_VERSION"
+echo "::set-output name=version::${_VERSION}"
 
 #export _OBJECT_NAME="${REPO_NAME}/${_VERSION}/${ARTIFACT}"
 # FIXME: Hard override for testing.
 export _OBJECT_NAME="bb-spa/1.0.0/course-ui.tgz"
 echo "::set-env name=s3Object::$_OBJECT_NAME"
+echo "::set-output name=s3Object::${_OBJECT_NAME}"
 
 #
 # Artifacts in the release/master bucket should not be overwritten, so check and fail if it does.
@@ -91,4 +90,5 @@ fi
 #
 # Copy the artifact to the S3 bucket.
 #
+echo "Copying [${ARTIFACT}] to ${_BUCKET}/$_OBJECT_NAME"
 aws s3 cp $ARTIFACT s3://${_BUCKET}/$_OBJECT_NAME
