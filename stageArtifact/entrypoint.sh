@@ -12,7 +12,6 @@ REPO_OVERRIDE=$4
 # Determine the repo name. If no override is provided then get the name from the GitHub built-in: GITHUB_REPOSITORY
 #
 if [ "$REPO_OVERRIDE" = "unset" ]; then
-  # This regex expects
   REPO_NAME=(`echo $GITHUB_REPOSITORY | cut -d\/ -f2`)
   if [ "${REPO_NAME}" = "" ]; then
     echo "Couldn't parse repo name from [${GITHUB_REPOSITORY}]"
@@ -42,17 +41,14 @@ echo "::set-output name=branch::${_BRANCH}"
 case "$_BRANCH" in
     "master")
       # Master goes to the unqualified bucket.
-      # echo "::set-env name=_BUCKET::$ARTIFACT_BUCKET_BASE"
       export _BUCKET=$ARTIFACT_BUCKET_BASE
       ;;
     "development")
       # Development goes to the dev bucket.
-      #echo "::set-env name=_BUCKET::$ARTIFACT_BUCKET_BASE-dev"
       export _BUCKET="${ARTIFACT_BUCKET_BASE}-dev"
       ;;
     *)
       # Evaluation and Patch both go to the eval bucket
-      #echo "::set-env name=_BUCKET::${ARTIFACT_BUCKET_BASE}-eval"
       export _BUCKET="${ARTIFACT_BUCKET_BASE}-eval"
       ;;
 esac
