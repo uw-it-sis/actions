@@ -4,9 +4,10 @@
 # Gather args ...
 #
 WORKDIR=$1
-ARTIFACT_BUCKET_BASE=$2
-ARTIFACT=$3
-REPO_OVERRIDE=$4
+COLLECTIVE=$2
+ARTIFACT_BUCKET_BASE=$3
+ARTIFACT=$4
+REPO_OVERRIDE=$5
 
 #
 # Determine the repo name. If no override is provided then get the name from the GitHub built-in: GITHUB_REPOSITORY
@@ -41,15 +42,15 @@ echo "::set-output name=branch::${_BRANCH}"
 case "$_BRANCH" in
     "master")
       # Master goes to the unqualified bucket.
-      export _BUCKET=$ARTIFACT_BUCKET_BASE
+      export _BUCKET="${COLLECTIVE}-prod-${ARTIFACT_BUCKET_BASE}"
       ;;
     "development")
       # Development goes to the dev bucket.
-      export _BUCKET="${ARTIFACT_BUCKET_BASE}-dev"
+      export _BUCKET="${COLLECTIVE}-dev-${ARTIFACT_BUCKET_BASE}"
       ;;
     *)
       # Evaluation and Patch both go to the eval bucket
-      export _BUCKET="${ARTIFACT_BUCKET_BASE}-eval"
+      export _BUCKET="${COLLECTIVE}-eval-${ARTIFACT_BUCKET_BASE}"
       ;;
 esac
 # Write the bucket name to outputs.

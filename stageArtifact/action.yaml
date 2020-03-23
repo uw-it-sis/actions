@@ -4,6 +4,9 @@ inputs:
   workdir:
     description: 'The directory to work from. Can be relative or absolute'
     default: '.'
+  collective:
+    description: 'The collective prefix of the S3 bucket'
+    required: true
   bucketBase:
     description: 'The base name of the S3 buckets'
     required: true
@@ -27,6 +30,7 @@ runs:
   image: 'Dockerfile'
   args:
     - ${{ inputs.workdir }}
+    - ${{ inputs.collective }}
     - ${{ inputs.bucketBase }}
     - ${{ inputs.artifact }}
     - ${{ inputs.repoOverride }}
