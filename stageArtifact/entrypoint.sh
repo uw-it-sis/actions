@@ -31,7 +31,7 @@ cd $WORKDIR
 #
 export _BRANCH=`(echo ${GITHUB_REF} | cut -d\/ -f3)`
 #
-# Make _BRACH available in subsequent steps/jobs.
+# Make _BRANCH available in subsequent steps/jobs.
 #
 echo "::set-env name=branch::${_BRANCH}"
 echo "::set-output name=branch::${_BRANCH}"
@@ -41,7 +41,7 @@ echo "::set-output name=branch::${_BRANCH}"
 #
 case "$_BRANCH" in
     "master")
-      # Master goes to the unqualified bucket.
+      # Master goes to the prod bucket.
       export _BUCKET="${COLLECTIVE}-prod-${ARTIFACT_BUCKET_BASE}"
       ;;
     "development")

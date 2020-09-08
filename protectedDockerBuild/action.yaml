@@ -1,0 +1,17 @@
+name: 'Protected Docker Build'
+description: "Builds a docker image of a gradle project and conditionally publishes it to the docker repository"
+inputs:
+  artifact:
+    description: 'The name of the artifact'
+    required: true
+  dockerFilePath:
+    description: 'Relative path from the root of the source control folder to the Docker file describing the image'
+    required: true
+runs:
+  using: 'docker'
+  image: 'Dockerfile'
+  args:
+    - ${{ inputs.artifact }}
+    - ${{ inputs.dockerFilePath }}
+    - ${{ github.repository }}
+    - ${{ secrets.SUDDUTH_READ_EXTERNAL_PRIVATE_REPOS_TOKEN }}
