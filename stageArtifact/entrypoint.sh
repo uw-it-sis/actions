@@ -33,7 +33,7 @@ export _BRANCH=`(echo ${GITHUB_REF} | cut -d\/ -f3)`
 #
 # Make _BRANCH available in subsequent steps/jobs.
 #
-echo "::set-env name=branch::${_BRANCH}"
+echo "branch=${_BRANCH}" >> $GITHUB_ENV
 echo "::set-output name=branch::${_BRANCH}"
 
 #
@@ -54,7 +54,7 @@ case "$_BRANCH" in
       ;;
 esac
 # Write the bucket name to outputs.
-echo "::set-env name=artifactBucket::${_BUCKET}"
+echo "artifactBucket=${_BUCKET}" >> $GITHUB_ENV
 echo "::set-output name=artifactBucket::${_BUCKET}"
 
 #
@@ -65,14 +65,14 @@ if [ ! -f "package.json" ]; then
     exit 1
 fi
 export _VERSION=`jq -r .version package.json`
-echo "::set-env name=version::$_VERSION"
+echo "version=${_VERSION}" >> $GITHUB_ENV
 echo "::set-output name=version::${_VERSION}"
 
 #
 # Put together the object name for the upload.
 #
 export _OBJECT_NAME="${REPO_NAME}/${_VERSION}/${ARTIFACT}"
-echo "::set-env name=s3Object::$_OBJECT_NAME"
+echo "s3Object=${_OBJECT_NAME}" >> $GITHUB_ENV
 echo "::set-output name=s3Object::${_OBJECT_NAME}"
 
 #
