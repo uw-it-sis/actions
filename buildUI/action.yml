@@ -1,6 +1,6 @@
 name: 'Build UI'
 description: 'Builds and stages the UI for a SIS cloud app'
 runs:
-  using: 'composite'
+  using: "composite"
   steps:
-    - run: echo Testing if env vars are available: ${{ env.TEST }}
+    - run: echo Testing if env vars are available ${{ env.TEST }}
