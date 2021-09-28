@@ -4,3 +4,4 @@ runs:
   using: "composite"
   steps:
     - run: echo Testing if env vars are available ${{ env.TEST }}
+      shell: bash
