@@ -33,10 +33,6 @@ on:
       NODE_AUTH_TOKEN:
         required: true
 
-# FIXME not sure if this will work:
-env:
-  WORKDIR: ${{ inputs.workdir }}
-
 jobs:
   build:
 
@@ -62,12 +58,12 @@ jobs:
 
     - name: Write build number to file
       run: |
-        cd $WORKDIR
+        cd ${{ inputs.workdir }}
         echo '{"build":'$GITHUB_RUN_NUMBER'}' > src/main/resources/build_number.json
 
     - name: Install NPM dependencies and Package # TODO separate into 2 steps?
       run: |
-        cd $WORKDIR
+        cd ${{ inputs.workdir }}
         npm ci
         npm pack
       env:
