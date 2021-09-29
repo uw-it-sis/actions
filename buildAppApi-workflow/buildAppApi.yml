@@ -1,0 +1,47 @@
+name: 'Build App Api'
+description: 'Builds the app api artifact for a SIS cloud app'
+
+on:
+  workflow_call:
+    inputs:
+
+      workdir:
+        description: 'The directory to work from. Can be relative or absolute'
+        default: '.'
+
+      node_auth_token:
+        description: 'Used to install dependencies from our private repos'
+        required: true
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Source
+        uses: actions/checkout@v1
+
+      - name: Setup NodeJS 14
+        uses: actions/setup-node@v1
+        with:
+          node-version: 14
+          registry-url: https://npm.pkg.github.com/
+          scope: '@uw-it-sis'
+
+      - name: Write build number to file
+        shell: bash
+        working-directory: ${{ inputs.workdir }}
+        run: |
+          echo '{"build":'$GITHUB_RUN_NUMBER'}' > src/main/resources/build_number.json
+
+      - name: Install NPM dependencies
+        shell: bash
+        working-directory: ${{ inputs.workdir }}
+        run: npm ci
+        env:
+          NODE_AUTH_TOKEN: ${{ inputs.node_auth_token }}
+          CI: true
+
+      - name: Build
+        shell: bash
+        working-directory: ${{ inputs.workdir }}
+        run: npm pack
