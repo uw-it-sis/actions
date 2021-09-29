@@ -1,0 +1,87 @@
+name: 'Build App Api'
+description: 'Builds the app api artifact for a SIS cloud app'
+
+on:
+  workflow_call:
+    inputs:
+
+      workdir:
+        description: 'The directory to work from. Can be relative or absolute'
+        default: '.'
+
+      collective:
+        description: 'The collective prefix of the S3 bucket'
+        required: true
+
+      bucketBase:
+        description: 'The base name of the S3 buckets'
+        required: true
+
+      artifact:
+        description: 'The name of the artifact'
+        required: true
+
+      repoOverride:
+        description: 'An alternate name for the repo. If not provided the repo name will be extracted from the GITHUB_REPOSITORY variable'
+        default: 'unset'
+
+    secrets:
+      AWS_ACCESS_KEY_ID:
+        required: true
+      AWS_SECRET_ACCESS_KEY:
+        required: true
+      NODE_AUTH_TOKEN:
+        required: true
+
+# FIXME not sure if this will work:
+env:
+  WORKDIR: ${{ inputs.workdir }}
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout Source
+      uses: actions/checkout@v1
+
+    - name: Setup NodeJS 14
+      uses: actions/setup-node@v1
+      with:
+        node-version: 14
+        registry-url: https://npm.pkg.github.com/
+        scope: '@uw-it-sis'
+
+    - name: Configure AWS
+      uses: aws-actions/configure-aws-credentials@v1
+      with:
+        aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+        aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+        aws-region: us-west-2
+
+    - name: Write build number to file
+      run: |
+        cd $WORKDIR
+        echo '{"build":'$GITHUB_RUN_NUMBER'}' > src/main/resources/build_number.json
+
+    - name: Install NPM dependencies and Package # TODO separate into 2 steps?
+      run: |
+        cd $WORKDIR
+        npm ci
+        npm pack
+      env:
+        NODE_AUTH_TOKEN: ${{ secrets.NODE_AUTH_TOKEN }}
+        CI: true
+
+    # TODO add test
+
+    - name: Stage Artifact
+      uses: uw-it-sis/actions/stageArtifact@master
+      id: stage
+      with:
+        workdir: ${{ inputs.workdir }}
+        collective: ${{ inputs.collective }}
+        bucketBase: ${{ inputs.artifact_bucket_base }}
+        artifact: ${{ inputs.artifact }}
+
