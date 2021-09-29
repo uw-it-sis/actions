@@ -5,21 +5,25 @@ on:
   workflow_call:
     inputs:
 
-    workdir:
-      description: 'The directory to work from. Can be relative or absolute'
-      default: '.'
-    collective:
-      description: 'The collective prefix of the S3 bucket'
-      required: true
-    bucketBase:
-      description: 'The base name of the S3 buckets'
-      required: true
-    artifact:
-      description: 'The name of the artifact'
-      required: true
-    repoOverride:
-      description: 'An alternate name for the repo. If not provided the repo name will be extracted from the GITHUB_REPOSITORY variable'
-      default: 'unset'
+      workdir:
+        description: 'The directory to work from. Can be relative or absolute'
+        default: '.'
+
+      collective:
+        description: 'The collective prefix of the S3 bucket'
+        required: true
+
+      bucketBase:
+        description: 'The base name of the S3 buckets'
+        required: true
+
+      artifact:
+        description: 'The name of the artifact'
+        required: true
+
+      repoOverride:
+        description: 'An alternate name for the repo. If not provided the repo name will be extracted from the GITHUB_REPOSITORY variable'
+        default: 'unset'
 
     secrets:
       AWS_ACCESS_KEY_ID:
