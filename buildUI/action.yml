@@ -1,7 +1,82 @@
 name: 'Build UI'
 description: 'Builds and stages the UI for a SIS cloud app'
+inputs:
+
+  workdir:
+    description: 'The directory to work from. Can be relative or absolute'
+    default: '.'
+
+  collective:
+    description: 'The collective prefix of the S3 bucket'
+    required: true
+
+  bucketBase:
+    description: 'The base name of the S3 buckets'
+    required: true
+
+  artifact:
+    description: 'The name of the artifact'
+    required: true
+
+  app_context:
+    description: '' # FIXME not sure how to describe this
+    required: true
+
 runs:
   using: "composite"
   steps:
-    - run: echo Testing if env vars are available ${{ env.TEST }}
+    - name: Checkout Source
+      uses: actions/checkout@v1
+
+    - name: Configure AWS
+      uses: aws-actions/configure-aws-credentials@v1
+      with:
+        aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+        aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+        aws-region: us-west-2
+
+    - name: Setup NodeJS 14
+      uses: actions/setup-node@v1
+      with:
+        node-version: 14
+        registry-url: https://npm.pkg.github.com/
+        scope: '@uw-it-sis'
+
+    - name: Install NPM dependencies
       shell: bash
+      working-directory: ${{ inputs.workdir }}
+      run: npm ci
+      env:
+        NODE_AUTH_TOKEN: ${{ secrets.SUDDUTH_READ_EXTERNAL_PRIVATE_REPOS_TOKEN }}
+        CI: true
+
+    - name: Create Archive
+      shell: bash
+      working-directory: ${{ inputs.workdir }}
+      run: |
+        (tar --transform s/dist/${{ inputs.APP_CONTEXT }}/ -czf - ./dist > ${{ inputs.ARTIFACT }})
+
+    - name: Build
+      shell: bash
+      working-directory: ${{ inputs.workdir }}
+      run: |
+        # Minify builds on master.
+        [[  "${BRANCH_NAME}" = "master" ]] &&  npm run build || npm run build-dev
+
+    - name: Test
+      shell: bash
+      working-directory: ${{ inputs.workdir }}
+      run: |
+        # Git won't track empty directories, so if src/test exists there must be at least one test to run.
+        [[ -d src/test ]] && npm test
+
+    - name: Stage Artifact
+      uses: uw-it-sis/actions/stageArtifact@master
+      id: stage
+      with:
+        workdir: ${{ inputs.workdir }}
+        collective: ${{ inputs.collective }}
+        bucketBase: ${{ inputs.artifact_bucket_base }}
+        artifact: ${{ inputs.artifact }}
+
+
