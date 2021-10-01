@@ -1,0 +1,23 @@
+name: 'Deploy UI Code'
+description: "Deploys the UI code from the artifact to the CDN"
+inputs:
+  srcS3File:
+    description: 'An S3Uri of the artifact to deploy'
+    required: true
+  destS3Bucket:
+    description: 'The name of the S3 bucket where the artifact will be deployed'
+    required: true
+  collective:
+    description: 'The name of the collective'
+    required: true
+  environment:
+    description: 'The name of the environment'
+    required: true
+runs:
+  using: 'docker'
+  image: 'Dockerfile'
+  args:
+    - ${{ inputs.srcS3File }}
+    - ${{ inputs.destS3Bucket }}
+    - ${{ inputs.collective }}
+    - ${{ inputs.environment }}

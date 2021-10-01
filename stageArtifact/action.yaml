@@ -25,6 +25,8 @@ outputs:
     description: 'The version of the artifact which was read from package.json'
   s3Object:
     description: 'The name of the S3 object'
+  s3ArtifactUri:
+    description: 'The full S3Uri path to the staged artifact'
 runs:
   using: 'docker'
   image: 'Dockerfile'
