@@ -82,7 +82,6 @@ export _S3_ARTIFACT_URI="s3://${_BUCKET}/$_OBJECT_NAME"
 echo "s3ArtifactUri=${_S3_ARTIFACT_URI}" >> $GITHUB_ENV
 echo "::set-output name=s3ArtifactUri::${_S3_ARTIFACT_URI}"
 
-echo "s3ArtifactUri=${_S3_ARTIFACT_URI}"
 #
 # Artifacts in the release/master bucket should not be overwritten, so check and fail if it does.
 #
