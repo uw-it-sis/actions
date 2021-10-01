@@ -48,7 +48,7 @@ rm $ARCHIVE_NAME
 DIRECTORY_NAME=`ls`
 # Now sync it to the application code bucket
 echo "Writing $DIRECTORY_NAME to $DEST_S3_BUCKET/$DIRECTORY_NAME"
-aws s3 sync $DIRECTORY_NAME $DEST_S3_BUCKET/$DIRECTORY_NAME # --quiet
+aws s3 sync $DIRECTORY_NAME $DEST_S3_BUCKET/$DIRECTORY_NAME --quiet
 
 
 #
