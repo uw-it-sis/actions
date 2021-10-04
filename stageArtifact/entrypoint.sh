@@ -48,9 +48,13 @@ case "$_BRANCH" in
       # Development goes to the dev bucket.
       export _BUCKET="${COLLECTIVE}-dev-${ARTIFACT_BUCKET_BASE}"
       ;;
-    *)
+    evaluation|patch)
       # Evaluation and Patch both go to the eval bucket
       export _BUCKET="${COLLECTIVE}-eval-${ARTIFACT_BUCKET_BASE}"
+      ;;
+    *)
+      echo >&2 "This isn't an SCM-workflow branch. Exiting"
+      exit 1
       ;;
 esac
 # Write the bucket name to outputs.
