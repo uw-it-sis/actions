@@ -10,8 +10,8 @@ inputs:
     description: 'The name of the artifact'
     required: true
 
-  app_context:
-    description: '' # FIXME not sure how to describe this
+  app_name:
+    description: 'The name of this app - used as the folder in the CDN bucket and the first part of the URL path'
     required: true
 
   node_auth_token:
@@ -50,5 +50,5 @@ runs:
       shell: bash
       working-directory: ${{ inputs.workdir }}
       run: |
-        (tar --transform s/dist/${{ inputs.APP_CONTEXT }}/ -czf - ./dist > ${{ inputs.ARTIFACT }})
+        (tar --transform s/dist/${{ inputs.app_name }}/ -czf - ./dist > ${{ inputs.ARTIFACT }})
 
