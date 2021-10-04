@@ -60,7 +60,6 @@ esac
 # Write the bucket name to outputs.
 echo "artifactBucket=${_BUCKET}" >> $GITHUB_ENV
 echo "::set-output name=artifactBucket::${_BUCKET}"
-echo "artifactBucket=${_BUCKET}" # >> $GITHUB_ENV  # TODO DELETE ME
 
 #
 # Get the version
