@@ -24,7 +24,7 @@ outputs:
   version:
     description: 'The version of the artifact which was read from package.json'
   s3Object:
-    description: 'The name of the S3 object'
+    description: 'The path of the S3 object within the bucket'
   s3ArtifactUri:
     description: 'The full S3Uri path to the staged artifact'
 runs:
