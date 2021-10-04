@@ -10,6 +10,12 @@ inputs:
     description: "The path to the artifact within the bucket"
     required: true
 
+  collective:
+    required: true
+
+  environment:
+    required: true
+
   lambda_function_name:
     description: "The full name of the lambda function to deploy to"
     default: "unset"
@@ -24,7 +30,7 @@ runs:
         # per the terraform definition, the lambda name defaults to the name of the code artifact without the extension
         if [[ ${{ inputs.lambda_function_name }} == "unset" ]]; then
           artifact=$(basename ${{ inputs.artifact_s3_key }})
-          name=${artifact%.zip}
+          name=${{ inputs.collective }}-${{ inputs.environment }}-${artifact%.zip}
         else
           name=${{ inputs.lambda_function_name }}
         fi
