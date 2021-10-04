@@ -22,7 +22,7 @@ runs:
       id: lambda_name
       run: |
         # per the terraform definition, the lambda name defaults to the name of the code artifact without the extension
-        if [[ ${{ inputs.lambda_function_name }} != "unset" ]]; then
+        if [[ ${{ inputs.lambda_function_name }} == "unset" ]]; then
           artifact=$(basename ${{ inputs.artifact_s3_key }})
           name=${artifact%.zip}
         else
