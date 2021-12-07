@@ -1,0 +1,18 @@
+name: 'SHA256 Checksum'
+author: myplan-devs
+description: 'Generates a SHA256 checksum'
+inputs:
+  width:
+    description: "The number of checksum characters to output. Should be '~5 <= number <= 40'."
+    required: false
+    default: "40"
+outputs:
+  checksum:
+    description: "The checksum"
+    value: ${{ steps.checksum.outputs.checksum }}
+runs:
+  using: "composite"
+  steps:
+    - id: checksum
+      run: echo "::set-output name=checksum::$($GITHUB_ACTION_PATH/checksum.sh ${{ inputs.width }})"
+      shell: bash
