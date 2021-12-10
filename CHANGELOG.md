@@ -1,7 +1,7 @@
 # Changelog
 This document is meant to document the changes that are introduced in a particular release.
 The versioning convention for this module is ...
-* Releases that can be consumed without changing infra- code only increment the patch version.
+* Releases that can be consumed without changing build code only increment the patch version.
 * Releases that contain breaking changes should increment the minor version.
 * Releases that introduce foundational changes increment the major version. (The term "foundational"
 changes isn't well-defined at the time of writing, but I'm thinking of it as "very breaky" changes.)
@@ -22,6 +22,10 @@ This document generally follows the formatting here: https://keepachangelog.com/
 * the
 ### Deprecated
 * possibilities
+
+## [ 1.0.1 ]
+### Changed
+* stageArtifact: Updated to stage patch artifacts in both dev and eval artifacts buckets
 
 ## [ 1.0.0 ]
 ### Added
