@@ -103,7 +103,7 @@ function set_vars() {
   #
   # Put together the full path for the staged artifact
   #
-  set-output s3ArtifactUri "s3://$_BUCKET/$_OBJECT_NAME"
+  set-output s3ArtifactUri "s3://$_BUCKET/$OBJECT_NAME"
 }
 
 #
@@ -115,6 +115,7 @@ function set-output() {
   local name="$1"
   local value="$2"
 
+  echo "setting output: $name=$value"
   echo "$name=$value" >> $GITHUB_ENV
   echo "::set-output name=$name::$value"
 }
