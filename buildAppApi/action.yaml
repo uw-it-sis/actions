@@ -23,11 +23,15 @@ runs:
         registry-url: https://npm.pkg.github.com/
         scope: '@uw-it-sis'
 
+    - name: Get Checksum
+      uses: ./checksum
+      id: checksum
+
     - name: Write build number to file
       shell: bash
       working-directory: ${{ inputs.workdir }}
       run: |
-        echo '{"build":'$GITHUB_RUN_NUMBER'}' > src/main/resources/build_number.json
+        echo '{"build":'$GITHUB_RUN_NUMBER', "checksum":"${{ steps.checksum.outputs.checksum }}"}' > src/main/resources/build_number.json
 
     - name: Install NPM dependencies
       shell: bash
