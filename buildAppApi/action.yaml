@@ -31,7 +31,7 @@ runs:
       shell: bash
       working-directory: ${{ inputs.workdir }}
       run: |
-        echo '{"build":"${{ steps.checksum.outputs.checksum }}"}' > src/main/resources/build_number.json
+        echo '{"checksum":"${{ steps.checksum.outputs.checksum }}"}' > src/main/resources/build_info.json
 
     - name: Install NPM dependencies
       shell: bash
