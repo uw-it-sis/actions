@@ -16,5 +16,4 @@ runs:
   args:
     - ${{ inputs.artifact }}
     - ${{ inputs.dockerFilePath }}
-    # - ${{ github.repository }}
     - ${{ inputs.dockerLoginToken }}

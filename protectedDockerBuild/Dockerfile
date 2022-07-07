@@ -6,7 +6,9 @@ COPY entrypoint.sh /entrypoint.sh
 
 # Install bash, so that the shell code is consistent.
 RUN apk -v --update add --no-cache \
-        bash
+        bash \
+        git \
+        docker
 
 #  Code file to execute when the docker container starts up (`entrypoint.sh`)
 ENTRYPOINT ["/bin/bash", "/entrypoint.sh"]
