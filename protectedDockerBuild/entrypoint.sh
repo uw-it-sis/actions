@@ -7,10 +7,9 @@
 # Gather args ...
 ARTIFACT=$1
 DOCKERFILE_PATH=$2
-# GITHUB_REPOSITORY_PATH=$3
 DOCKER_LOGIN_TOKEN=$3
 
-echo >&2 "GITHUB_REPOSITORY: $GITHUB_REPOSITORY" # TODO DELETE ME
+# This is a magic env-var available in github actions contexts
 GITHUB_REPOSITORY_PATH=$GITHUB_REPOSITORY
 
 GRADLE_PROPERTIES='gradle.properties'
