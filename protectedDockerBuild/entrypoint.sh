@@ -1,12 +1,17 @@
 #!/bin/sh -l
 #================================================================================
 #
+# This script safely publishes docker images for gradle repos, preventing a released image from being overwritten.
+# It does this by looking at tags in the git repo - if the tag for the version already exists, it has been released and the image will not be overwritten.
+
 # Gather args ...
-#
 ARTIFACT=$1
 DOCKERFILE_PATH=$2
-GITHUB_REPOSITORY_PATH=$3
-DOCKER_LOGIN_TOKEN=$4
+# GITHUB_REPOSITORY_PATH=$3
+DOCKER_LOGIN_TOKEN=$3
+
+echo >&2 "GITHUB_REPOSITORY: $GITHUB_REPOSITORY" # TODO DELETE ME
+GITHUB_REPOSITORY_PATH=$GITHUB_REPOSITORY
 
 GRADLE_PROPERTIES='gradle.properties'
 
@@ -26,13 +31,14 @@ while read line; do
   fi
 done < $GRADLE_PROPERTIES
 
-# prepend a 'v' to the version to form the tag name
-tagName=v$_VERSION
 if [ "$_VERSION" = "NONE" ]
 then
   echo No version found in "$GRADLE_PROPERTIES" , exiting
   exit 1
 fi
+
+# prepend a 'v' to the version to form the tag name
+tagName=v$_VERSION
 
 allTags=( `git tag -l` )
 
