@@ -51,11 +51,8 @@ for item in "${allTags[@]}"; do
 done
 
 # build the docker image
-echo "docker logging in" # TODO DELETE ME
 docker login -u sudduth@uw.edu -p $DOCKER_LOGIN_TOKEN docker.pkg.github.com
-echo "building" # TODO DELETE ME
 docker build  -f $DOCKERFILE_PATH -t docker.pkg.github.com/$GITHUB_REPOSITORY_PATH/$ARTIFACT:$_VERSION .
-echo "finished build" # TODO DELETE ME
 
 # push the build to the repository only if there is no existing tag for the discovered version
 if [ "$foundTag" = true ]
