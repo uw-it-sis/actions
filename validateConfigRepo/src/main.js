@@ -44,10 +44,10 @@ let results = configFiles.map(file => {
 let failures = results.filter(r => r.result == false);
 
 if (failures.length > 0) {
-    // Mark this run as a failure
-    core.setFailed(`${failures.length} config files were invalid:`);
+    console.error(`${failures.length} config files were invalid:`);
     failures.forEach(f => {
-        console.error(`Config file [${f.file}] had ${f.errors.length} error(s):`);
+        // core.setFailed will mark this run as a failure
+        core.setFailed(`Config file [${f.file}] had ${f.errors.length} error(s):`);
         f.errors.forEach(e => console.error(`    ${e}`));
     });
 } else {
