@@ -8567,7 +8567,7 @@ if (failures.length > 0) {
     console.error(`${failures.length} config files were invalid:`);
     failures.forEach(f => {
         // core.setFailed will mark this run as a failure
-        core.warn(`Config file [${f.file}] had ${f.errors.length} error(s):`);
+        core.warning(`Config file [${f.file}] had ${f.errors.length} error(s):`);
         f.errors.forEach(e => console.error(`    ${e}`));
     });
 } else {
