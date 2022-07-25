@@ -8540,8 +8540,6 @@ let configFiles = fs.readdirSync('.')
     .map(dir => fs.readdirSync(dir).filter(isConfigFile).map(f => `${dir}/${f}`))
     .flat();
 
-console.log("ls: ", fs.readdirSync('..'));
-
 console.log("Found config files: ", configFiles);
 
 let results = configFiles.map(file => {
@@ -8566,10 +8564,11 @@ let results = configFiles.map(file => {
 let failures = results.filter(r => r.result == false);
 
 if (failures.length > 0) {
-    core.error(`${failures.length} config files were invalid:`);
+    // Mark this run as a failure
+    core.setFailed(`${failures.length} config files were invalid:`);
     failures.forEach(f => {
-        core.error(`Config file [${f.file}] had ${f.errors.length} error(s):`);
-        f.errors.forEach(e => core.error(`    ${e}`));
+        console.error(`Config file [${f.file}] had ${f.errors.length} error(s):`);
+        f.errors.forEach(e => console.error(`    ${e}`));
     });
 } else {
     console.log("All config files look valid");
