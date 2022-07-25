@@ -8,13 +8,15 @@
     "js-yaml": "~4.1.0"
   },
   "devDependencies": {
+    "@vercel/ncc": "~0.34.0",
     "chai": "~4.3.6",
     "mocha": "~10.0.0",
     "underscore": "~1.13.4"
   },
   "scripts": {
     "_test": "npm run build; ./node_modules/.bin/mocha src/test",
-    "test": "./node_modules/.bin/mocha test"
+    "test": "./node_modules/.bin/mocha test",
+    "build": "./node_modules/.bin/ncc build src/main.js"
   },
   "keywords": [],
   "author": "",
