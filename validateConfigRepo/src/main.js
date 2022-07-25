@@ -20,7 +20,7 @@ let configFiles = fs.readdirSync('.')
     .map(dir => fs.readdirSync(dir).filter(isConfigFile).map(f => `${dir}/${f}`))
     .flat();
 
-console.log("ls: ", fs.readdirSync('.'));
+console.log("ls: ", fs.readdirSync('..'));
 
 console.log("Found config files: ", configFiles);
 
