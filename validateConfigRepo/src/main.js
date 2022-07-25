@@ -12,6 +12,8 @@ function isConfigFile(f) { return f == 'variables.yaml' || f == 'secrets.yaml' ;
 
 function isDir(f) { return fs.statSync(f).isDirectory(); }
 
+console.log(`Running from: `, process.cwd());
+
 // This must be run from the config-* repo root
 let configFiles = fs.readdirSync('.')
     .filter(isDir)
