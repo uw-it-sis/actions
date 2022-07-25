@@ -1,0 +1,25 @@
+{
+  "name": "validate-configs",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "dependencies": {
+    "@actions/core": "~1.9.0",
+    "js-yaml": "~4.1.0"
+  },
+  "devDependencies": {
+    "@types/node": "~18.0.6",
+    "@types/underscore": "~1.11.4",
+    "chai": "~4.3.6",
+    "mocha": "~10.0.0",
+    "typescript": "~4.7.4",
+    "underscore": "~1.13.4"
+  },
+  "scripts": {
+    "_test": "npm run build; ./node_modules/.bin/mocha src/test",
+    "test": "./node_modules/.bin/mocha test"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC"
+}
