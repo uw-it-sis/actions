@@ -17,7 +17,7 @@ const {
 const Config = require('./Config');
 
 function main() {
-    console.log(`Running from: `, process.cwd());
+    core.log(`Running from: `, process.cwd());
 
     // Find config files
     let configFiles = fs.readdirSync('.')
@@ -25,7 +25,7 @@ function main() {
         .map(dir => fs.readdirSync(dir).filter(isConfigFile).map(f => `${dir}/${f}`))
         .flat();
 
-    console.log("Found config files: ", configFiles);
+    core.log("Found config files: ", configFiles);
 
     let issues = [];
 
@@ -62,14 +62,14 @@ function main() {
     let fileErrors = groupIssuesByFile(issues);
 
     if (issues.length > 0) {
-        console.error(`${issues.length} issues found:`);
+        core.error(`${issues.length} issues found:`);
         fileErrors.forEach(file => {
             // core.setFailed will mark this run as a failure
             core.setFailed(`Config file [${file.file}] had ${file.errors.length} error(s):`);
-            file.errors.forEach(e => console.error(`    ${e}`));
+            file.errors.forEach(e => core.error(`    ${e}`));
         });
     } else {
-        console.log("All config files look valid");
+        core.log("All config files look valid");
     }
 
 }
