@@ -8614,7 +8614,7 @@ const {
 const Config = __nccwpck_require__(9279);
 
 function main() {
-    core.log(`Running from: `, process.cwd());
+    console.log(`Running from: `, process.cwd());
 
     // Find config files
     let configFiles = fs.readdirSync('.')
@@ -8622,7 +8622,7 @@ function main() {
         .map(dir => fs.readdirSync(dir).filter(isConfigFile).map(f => `${dir}/${f}`))
         .flat();
 
-    core.log("Found config files: ", configFiles);
+    console.log("Found config files: ", configFiles);
 
     let issues = [];
 
@@ -8666,7 +8666,7 @@ function main() {
             file.errors.forEach(e => core.error(`    ${e}`));
         });
     } else {
-        core.log("All config files look valid");
+        core.info("All config files look valid");
     }
 
 }
