@@ -59,31 +59,35 @@ function main() {
 
     issues.push(...mismatches);
 
-    // let mismatches = validateMatchingConfigItems(varsFiles);
+    let fileErrors = groupIssuesByFile(issues);
 
-    console.log(`mismatches: `, mismatches)  // TODO DELETE ME
-
-    console.log(`issues: `, issues)  // TODO DELETE ME
-
-    console.log(`groupIssues(issues): `, groupIssues(issues))  // TODO DELETE ME
-
-    // if (issues.length > 0) {
-    //     console.error(`${issues.length} issues found:`);
-    //     issues.forEach(issue => {
-    //         // core.setFailed will mark this run as a failure
-    //         core.setFailed(`Config file [${issue.file}] had ${issue.errors.length} error(s):`);
-    //         issue.errors.forEach(e => console.error(`    ${e}`));
-    //     });
-    // } else {
-    //     console.log("All config files look valid");
-    // }
+    if (issues.length > 0) {
+        console.error(`${issues.length} issues found:`);
+        fileErrors.forEach(file => {
+            // core.setFailed will mark this run as a failure
+            core.setFailed(`Config file [${file.file}] had ${file.errors.length} error(s):`);
+            file.errors.forEach(e => console.error(`    ${e}`));
+        });
+    } else {
+        console.log("All config files look valid");
+    }
 
 }
 
 /**
  * Groups issues by file
+ * Takes a list of issues, and returns a list of objects. Each object
+ * represents a file, and has a "file" prop with the name of the file, and an
+ * "errors" prop that contains a list of all of the errors associated with that
+ * file.
+ * @param {Issue[]} issues - a list of issues
+ * @returns - A list of objects that look like this:
+ *   {
+ *     file: "filename",
+ *     errors: [...]
+ *   }
  */
-function groupIssues(issues) {
+function groupIssuesByFile(issues) {
     return _.chain(issues)
         .groupBy(e => e.file)
         // convert the list of errors from a list of objects to a list of strings.
