@@ -6127,6 +6127,38 @@ exports.debug = debug; // for test
 
 /***/ }),
 
+/***/ 9279:
+/***/ ((module) => {
+
+"use strict";
+
+
+module.exports = class Config {
+    constructor(file, data) {
+        this.file = file;
+        this.data = data;
+    }
+}
+
+
+/***/ }),
+
+/***/ 8030:
+/***/ ((module) => {
+
+"use strict";
+
+
+module.exports = class Issue {
+    constructor(file, error) {
+        this.file = file;
+        this.error = error;
+    }
+}
+
+
+/***/ }),
+
 /***/ 1002:
 /***/ ((module, __unused_webpack_exports, __nccwpck_require__) => {
 
@@ -6134,6 +6166,7 @@ exports.debug = debug; // for test
 
 
 const _ = __nccwpck_require__(5067);
+const Issue = __nccwpck_require__(8030);
 
 
 /**
@@ -6149,13 +6182,11 @@ const _ = __nccwpck_require__(5067);
  *   - description and value fields must not be empty
  *   - config_items may not have other properties
  *
- * @param {object} data - the json object parsed from the yaml config
- * @returns {object} An object with 2 properties:
- *  result - True/false whether the structure was valid
- *  errors - a list of errors found. Will be empty if result was true.
+ * @param {Config} config - A Config object
+ * @returns {array<Issue>} A list of Issues
  */
-function validateStructure(data) {
-
+function validateStructure(config) {
+    let data = config.data
     let errors = [];
     let isBlank = (i) => _.isNull(i) || _.isUndefined(i);
 
@@ -6201,14 +6232,57 @@ function validateStructure(data) {
         }
     });
 
-    return {
-        result: errors.length == 0,
-        errors,
+    return errors.map(e => new Issue(config.file, e));
+}
+
+/**
+ * Compares a set of configs to make sure they all contain the same set of config items.
+ * The goal is to catch any mistakes where someone creates some config items in
+ * dev, but forgets to add equivalent configs to prod.
+ * @param {list[object]} configSets - A list of objects. Objects should have a "file" property containing the name of the file, and a "data" property containing the parsed data for that file.
+ * @returns {array<Issue>} A list of Issues
+ */
+function validateMatchingConfigItems(configSets) {
+    /*
+     * Converts the config data to a list of config item paths
+     */
+    function configDataToConfigPaths(data) {
+        let paths = [];
+        _.forEach(data, (configItemObject, sectionName) => {
+            _.forEach(configItemObject, (_, configItemName) => {
+                paths.push(`${sectionName}.${configItemName}`);
+            })
+        });
+        return paths;
     }
+
+    let pathConfigSets = configSets.map(c => ({
+        file: c.file,
+        paths: configDataToConfigPaths(c.data)
+    }));
+
+    let issues = [];
+    pathConfigSets.forEach(i => {
+        pathConfigSets.forEach(j => {
+            if (i.file == j.file) {
+                return;
+            }
+            let difference = _.difference(i.paths, j.paths);
+            if (difference.length > 0) {
+                issues.push(new Issue(
+                    j.file,
+                    `Config mismatch: File [${j.file}] was missing ${difference.length} config items found in in [${i.file}]: [${difference}]`
+                ));
+            }
+        });
+    });
+
+    return issues;
 }
 
 
 module.exports.validateStructure = validateStructure;
+module.exports.validateMatchingConfigItems = validateMatchingConfigItems;
 
 
 /***/ }),
@@ -8522,58 +8596,112 @@ var __webpack_exports__ = {};
 
 /*
  * This file will look for yaml config files in the repo and validate them.
+ * It must be run from the config-* repo root
  */
 const yaml = __nccwpck_require__(1917);
 const fs = __nccwpck_require__(7147);
-const {validateStructure} = __nccwpck_require__(1002);
+const _ = __nccwpck_require__(5067);
+
 const core = __nccwpck_require__(2186); // github actions
 
-function isConfigFile(f) { return f == 'variables.yaml' || f == 'secrets.yaml' ; }
+const {
+    validateStructure,
+    validateMatchingConfigItems,
+} = __nccwpck_require__(1002);
+const Config = __nccwpck_require__(9279);
+
+function main() {
+    console.log(`Running from: `, process.cwd());
+
+    // Find config files
+    let configFiles = fs.readdirSync('.')
+        .filter(isDir)
+        .map(dir => fs.readdirSync(dir).filter(isConfigFile).map(f => `${dir}/${f}`))
+        .flat();
+
+    console.log("Found config files: ", configFiles);
+
+    let issues = [];
+
+    // Parse the config files, collecting any parse errors
+    let configs = configFiles.map(file => {
+        try {
+            let configData = yaml.load(fs.readFileSync(file));
+            return new Config(file, configData);
+        } catch (e) {
+            issues.push(new Issue(
+                file,
+                `YAML parse error: ${e.reason} at line ${e.mark.line}, column ${e.mark.column}`,
+            ));
+        }
+    }).filter(config => !_.isUndefined(config));
+
+    // look for validation issues
+    configs.forEach(config => {
+        let configIssues = validateStructure(config);
+        issues.push(...configIssues);
+    });
+
+    // Look for config item mismatches
+    let varsFiles = configs.filter(c => isVarFile(c.file));
+    let secretsFiles = configs.filter(c => isSecretsFile(c.file));
+
+    let mismatches = [
+        ...validateMatchingConfigItems(varsFiles),
+        ...validateMatchingConfigItems(secretsFiles),
+    ]
+
+    issues.push(...mismatches);
+
+    // let mismatches = validateMatchingConfigItems(varsFiles);
+
+    console.log(`mismatches: `, mismatches)  // TODO DELETE ME
+
+    console.log(`issues: `, issues)  // TODO DELETE ME
+
+    console.log(`groupIssues(issues): `, groupIssues(issues))  // TODO DELETE ME
+
+    // if (issues.length > 0) {
+    //     console.error(`${issues.length} issues found:`);
+    //     issues.forEach(issue => {
+    //         // core.setFailed will mark this run as a failure
+    //         core.setFailed(`Config file [${issue.file}] had ${issue.errors.length} error(s):`);
+    //         issue.errors.forEach(e => console.error(`    ${e}`));
+    //     });
+    // } else {
+    //     console.log("All config files look valid");
+    // }
+
+}
+
+/**
+ * Groups issues by file
+ */
+function groupIssues(issues) {
+    return _.chain(issues)
+        .groupBy(e => e.file)
+        // convert the list of errors from a list of objects to a list of strings.
+        .map((errors, file) => {
+            return {
+                file: file,
+                errors: errors.map(e => e.error)
+            }
+        })
+        .value();
+
+}
+
+////////////////////////////////////////////////////////////////////////
+//                               UTILS                                //
+////////////////////////////////////////////////////////////////////////
+
+function isConfigFile(f) { return isVarFile(f) || isSecretsFile(f); }
+function isVarFile(f) { return f.endsWith('variables.yaml'); }
+function isSecretsFile(f) { return f.endsWith('secrets.yaml'); }
 
 function isDir(f) { return fs.statSync(f).isDirectory(); }
 
-console.log(`Running from: `, process.cwd());
-
-// This must be run from the config-* repo root
-let configFiles = fs.readdirSync('.')
-    .filter(isDir)
-    .map(dir => fs.readdirSync(dir).filter(isConfigFile).map(f => `${dir}/${f}`))
-    .flat();
-
-console.log("Found config files: ", configFiles);
-
-let results = configFiles.map(file => {
-    let configData;
-    try {
-        configData = yaml.load(fs.readFileSync(file));
-    } catch (e) {
-        return {
-            file,
-            result: false,
-            errors: [`YAML parse error: ${e.reason} at line ${e.mark.line}, column ${e.mark.column}`],
-        }
-    }
-    let validationResults = validateStructure(configData);
-    return {
-        file,
-        result: validationResults.result,
-        errors: validationResults.errors,
-    };
-});
-
-let failures = results.filter(r => r.result == false);
-
-if (failures.length > 0) {
-    console.error(`${failures.length} config files were invalid:`);
-    failures.forEach(f => {
-        // core.setFailed will mark this run as a failure
-        core.warning(`Config file [${f.file}] had ${f.errors.length} error(s):`);
-        f.errors.forEach(e => console.error(`    ${e}`));
-    });
-} else {
-    console.log("All config files look valid");
-}
-
+main();
 
 })();
 

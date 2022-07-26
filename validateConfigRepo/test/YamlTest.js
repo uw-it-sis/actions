@@ -102,9 +102,10 @@ describe(`config object should have a valid structure`, function() {
     describe(`test invalid structures`, function() {
         for (let i in _.range(INVALID_STRUCTURES.length)) {
             it(`[${i}]`, async function() {
-                let result = validateStructure(INVALID_STRUCTURES[i]);
-                console.error(result.errors);
-                assert.isFalse(result.result);
+                let config = {name: "na", data: INVALID_STRUCTURES[i]};
+                let issues = validateStructure(config);
+                console.error(issues.map(i => i.error));
+                assert.isFalse(issues.length == 0);
             });
         }
 
@@ -113,9 +114,10 @@ describe(`config object should have a valid structure`, function() {
     it(`test valid structures`, async function() {
         for (let i in _.range(INVALID_STRUCTURES.length)) {
             it(`[${i}]`, async function() {
-                let result = validateStructure(VALID_STRUCTURES[i]);
-                console.error(result.errors);
-                assert.isTrue(result.result);
+                let config = {name: "na", data: VALID_STRUCTURES[i]};
+                let issues = validateStructure(config);
+                console.error(issues.map(i => i.error));
+                assert.isTrue(issues.length == 0);
             });
         }
 
