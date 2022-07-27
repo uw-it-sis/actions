@@ -10,7 +10,7 @@ Entries should be grouped under the following subheadings: Added, Changed, Depre
 
 This document generally follows the formatting here: https://keepachangelog.com/en/1.0.0
 
-## [ Unreleased - 1.1.0 ]
+## [ Unreleased ]
 ### Added
 * TBD
 ### Fixed
@@ -22,6 +22,10 @@ This document generally follows the formatting here: https://keepachangelog.com/
 * the
 ### Deprecated
 * possibilities
+
+## [ 1.1.0 ]
+### Added
+* validateConfigRepo action - validates that config-* yaml configs are valid
 
 ## [ 1.0.1 ]
 ### Changed
