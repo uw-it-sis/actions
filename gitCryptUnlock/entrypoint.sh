@@ -8,7 +8,7 @@ gpgconf --kill gpg-agent
 
 gpg-agent --daemon --allow-preset-passphrase --max-cache-ttl 3153600000
 
-/usr/libexec/gpg-preset-passphrase --preset --passphrase "$GPG_KEY_PASS" "$GPG_KEY_GRIP"
+/usr/lib/gnupg/gpg-preset-passphrase --preset --passphrase "$GPG_KEY_PASS" "$GPG_KEY_GRIP"
 
 git-crypt unlock
 
