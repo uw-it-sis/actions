@@ -26,6 +26,7 @@ This document generally follows the formatting here: https://keepachangelog.com/
 ## [ 1.1.0 ]
 ### Added
 * validateConfigRepo action - validates that config-* yaml configs are valid
+* gitCryptUnlock action
 
 ## [ 1.0.1 ]
 ### Changed
