@@ -1,6 +1,6 @@
 FROM ubuntu:latest
 
-RUN apt-get update && apt-get install git-crypt
+RUN apt-get update && apt-get install -y git-crypt
 
 COPY LICENSE README.md /
 
