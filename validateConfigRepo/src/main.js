@@ -15,6 +15,7 @@ const {
     validateMatchingConfigItems,
 } = require('./validate');
 const Config = require('./Config');
+const Issue = require('./Issue');
 
 function main() {
     console.log(`Running from: `, process.cwd());

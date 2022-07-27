@@ -8612,6 +8612,7 @@ const {
     validateMatchingConfigItems,
 } = __nccwpck_require__(1002);
 const Config = __nccwpck_require__(9279);
+const Issue = __nccwpck_require__(8030);
 
 function main() {
     console.log(`Running from: `, process.cwd());
