@@ -1,0 +1,13 @@
+name: 'Git-Crypt Unlock'
+
+author: 'Danstan Onyango - Zemuldo'
+
+description: 'Action to Unlock files encrypted using Git-Crypt, supports keys with passphrase'
+
+runs:
+  using: 'docker'
+  image: 'Dockerfile'
+
+branding:
+  icon: 'unlock'  
+  color: 'green'
