@@ -1,5 +1,8 @@
 #!/bin/sh
 
+# git doesn't like the ownership on the directory when running in docker, so tell it not to worry
+git config --global --add safe.directory '*'
+
 echo "$GPG_PRIVATE_KEY" | base64 -d > "$HOME"/git-crypt-key.asc
 
 gpg --batch --import "$HOME"/git-crypt-key.asc
