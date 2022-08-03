@@ -6133,9 +6133,18 @@ exports.debug = debug; // for test
 "use strict";
 
 
+/**
+ * "Roughly" represents a config file
+ */
 module.exports = class Config {
     constructor(file, data) {
+        /**
+         * The name of the config file we're looking at.
+         */
         this.file = file;
+        /**
+         * The data found in the config file. Use a yaml parser to convert the raw yaml into a json object.
+         */
         this.data = data;
     }
 }
@@ -8646,14 +8655,17 @@ function main() {
         issues.push(...configIssues);
     });
 
-    // Look for config item mismatches
+    // Look for config item mismatches, i.e. did we forget to declare a var in prod?
     let varsFiles = configs.filter(c => isVarFile(c.file));
     let secretsFiles = configs.filter(c => isSecretsFile(c.file));
 
-    let mismatches = [
-        ...validateMatchingConfigItems(varsFiles),
-        ...validateMatchingConfigItems(secretsFiles),
-    ]
+    // // TODO: turning this off for now. It's invalid to create empty SSM
+    // // parameters, so we will need a way to say "this config item is not needed
+    // // in prod"
+    // let mismatches = [
+    //     ...validateMatchingConfigItems(varsFiles),
+    //     ...validateMatchingConfigItems(secretsFiles),
+    // ]
 
     issues.push(...mismatches);
 

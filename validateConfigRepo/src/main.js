@@ -49,14 +49,17 @@ function main() {
         issues.push(...configIssues);
     });
 
-    // Look for config item mismatches
+    // Look for config item mismatches, i.e. did we forget to declare a var in prod?
     let varsFiles = configs.filter(c => isVarFile(c.file));
     let secretsFiles = configs.filter(c => isSecretsFile(c.file));
 
-    let mismatches = [
-        ...validateMatchingConfigItems(varsFiles),
-        ...validateMatchingConfigItems(secretsFiles),
-    ]
+    // // TODO: turning this off for now. It's invalid to create empty SSM
+    // // parameters, so we will need a way to say "this config item is not needed
+    // // in prod"
+    // let mismatches = [
+    //     ...validateMatchingConfigItems(varsFiles),
+    //     ...validateMatchingConfigItems(secretsFiles),
+    // ]
 
     issues.push(...mismatches);
 
