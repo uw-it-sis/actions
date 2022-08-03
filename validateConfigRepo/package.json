@@ -16,7 +16,8 @@
   "scripts": {
     "_test": "npm run build; ./node_modules/.bin/mocha src/test",
     "test": "./node_modules/.bin/mocha test",
-    "build": "./node_modules/.bin/ncc build src/main.js"
+    "build": "./node_modules/.bin/ncc build src/main.js",
+    "build-daemon": "find . | entr npm run build"
   },
   "keywords": [],
   "author": "",

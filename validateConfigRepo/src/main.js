@@ -60,8 +60,7 @@ function main() {
     //     ...validateMatchingConfigItems(varsFiles),
     //     ...validateMatchingConfigItems(secretsFiles),
     // ]
-
-    issues.push(...mismatches);
+    // issues.push(...mismatches);
 
     let fileErrors = groupIssuesByFile(issues);
 
