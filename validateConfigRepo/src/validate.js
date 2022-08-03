@@ -15,6 +15,8 @@ const Issue = require('./Issue');
  *   - sections may not be empty
  *   - config_items must have description and value properties
  *   - description and value fields must not be empty
+ *   - description and value fields may not be the empty string. This
+ *       is a parmstore requirement. # TODO this needs to be implemented
  *   - config_items may not have other properties
  *
  * @param {Config} config - A Config object
