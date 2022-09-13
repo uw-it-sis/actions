@@ -58,7 +58,7 @@ function main() {
         #
         export _BUCKET="${COLLECTIVE}-dev-${ARTIFACT_BUCKET_BASE}"
         set_vars
-        stage-artifact $ARTIFACT $_BUCKET $OBJECT_NAME
+        stage-artifact $ARTIFACT $_BUCKET $OBJECT_NAME $AWS_REGION
 
         #
         # Set the bucket to eval, and let the main code do the staging
@@ -158,13 +158,10 @@ function stage-artifact() {
   #
   #aws s3 cp "$artifact" "s3://$bucket/$object_name"
   if [ "$aws_region" = "unset" ]; then
-        aws s3 cp "$artifact" "s3://$bucket/$object_name"
-        # The exit code will be 255 if the artifact does not exist or 0 if it exists.
-        # Note: The space between the bracket and the $ is very important.
-        else
-          aws s3 cp "$artifact" "s3://$bucket/$object_name" --region "$aws_region"
-      fi
-  }
+    aws s3 cp "$artifact" "s3://$bucket/$object_name"
+  else
+    aws s3 cp "$artifact" "s3://$bucket/$object_name" --region "$aws_region"
+  fi
 }
 
 main "$@"
