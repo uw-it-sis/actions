@@ -156,7 +156,7 @@ function stage-artifact() {
   #
   #aws s3 cp "$artifact" "s3://$bucket/$object_name"
   if [ "$aws_region" = "unset" ]; then
-    echo "AWS REGION: ${aws_region}"
+    echo "AWS REGION: unset"
     aws s3 cp "$artifact" "s3://$bucket/$object_name"
   else
     echo "AWS REGION: ${aws_region}"
