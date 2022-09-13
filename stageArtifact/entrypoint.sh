@@ -8,6 +8,7 @@ COLLECTIVE=$2
 ARTIFACT_BUCKET_BASE=$3
 ARTIFACT=$4
 REPO_OVERRIDE=$5
+AWS_REGION=$6
 
 function main() {
   #
@@ -71,7 +72,7 @@ function main() {
   esac
 
   set_vars
-  stage-artifact $ARTIFACT $_BUCKET $OBJECT_NAME
+  stage-artifact $ARTIFACT $_BUCKET $OBJECT_NAME $AWS_REGION
 }
 
 #
@@ -127,6 +128,7 @@ function set-output() {
 #   $1 : artifact - The file path of the artifact to stage
 #   $2 : bucket - The name of the s3 bucket to stage the artifact in
 #   $3 : object_name - The path of the artifact object within the s3 bucket
+#   $4 : aws_region - The region where the lambda needs to be deployed
 #
 # Also requires the $BRANCH global to be set
 #
@@ -134,7 +136,9 @@ function stage-artifact() {
   local artifact="$1"
   local bucket="$2"
   local object_name="$3"
+  local aws_region="$4"
 
+  echo "AWS REGION: $aws_region"
   #
   # Artifacts in the release/master bucket should not be overwritten, so check and fail if it does.
   #
@@ -152,7 +156,15 @@ function stage-artifact() {
   #
   # Copy the artifact to the S3 bucket.
   #
-  aws s3 cp "$artifact" "s3://$bucket/$object_name"
+  #aws s3 cp "$artifact" "s3://$bucket/$object_name"
+  if [ "$aws_region" = "unset" ]; then
+        aws s3 cp "$artifact" "s3://$bucket/$object_name"
+        # The exit code will be 255 if the artifact does not exist or 0 if it exists.
+        # Note: The space between the bracket and the $ is very important.
+        else
+          aws s3 cp "$artifact" "s3://$bucket/$object_name" --region "$aws_region"
+      fi
+  }
 }
 
 main "$@"

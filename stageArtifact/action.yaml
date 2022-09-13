@@ -16,6 +16,9 @@ inputs:
   repoOverride:
     description: 'An alternate name for the repo. If not provided the repo name will be extracted from the GITHUB_REPOSITORY variable'
     default: 'unset'
+  aws-region:
+    description: 'The region where the artifact should be deployed'
+    default: 'unset'
 outputs:
   artifactBucket:
     description: 'The name of the artifact bucket the object was uploaded to'
