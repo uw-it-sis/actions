@@ -26,7 +26,8 @@ function main() {
   # Get into the correct directory.
   #
   cd $WORKDIR
-
+  echo "AWS_REGION::$AWS_REGION"
+  echo "{AWS_REGION}::${AWS_REGION}"
   #
   # Get the branch name
   # https://github.community/t5/GitHub-Actions/Wrong-branch-displayed-for-workflow/m-p/37985#M3178
@@ -138,7 +139,7 @@ function stage-artifact() {
   local object_name="$3"
   local aws_region="$4"
 
-  echo "AWS REGION: $aws_region"
+  echo "AWS REGION: ${aws_region}"
   #
   # Artifacts in the release/master bucket should not be overwritten, so check and fail if it does.
   #
