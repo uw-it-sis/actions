@@ -39,3 +39,4 @@ runs:
     - ${{ inputs.bucketBase }}
     - ${{ inputs.artifact }}
     - ${{ inputs.repoOverride }}
+    - ${{ inputs.aws-region }}
