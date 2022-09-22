@@ -23,6 +23,10 @@ This document generally follows the formatting here: https://keepachangelog.com/
 ### Deprecated
 * possibilities
 
+## [ 1.2.0 ]
+### Changed
+* protectedDockerBuild now publishes to ghcr.io instead of docker.pkg.github.com
+
 ## [ 1.1.0 ]
 ### Added
 * validateConfigRepo action - validates that config-* yaml configs are valid

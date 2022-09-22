@@ -51,14 +51,14 @@ for item in "${allTags[@]}"; do
 done
 
 # build the docker image
-docker login -u sudduth@uw.edu -p $DOCKER_LOGIN_TOKEN docker.pkg.github.com
-docker build  -f $DOCKERFILE_PATH -t docker.pkg.github.com/$GITHUB_REPOSITORY_PATH/$ARTIFACT:$_VERSION .
+docker login -u sudduth@uw.edu -p $DOCKER_LOGIN_TOKEN ghcr.io
+docker build  -f $DOCKERFILE_PATH -t ghcr.io/$GITHUB_REPOSITORY_PATH/$ARTIFACT:$_VERSION .
 
 # push the build to the repository only if there is no existing tag for the discovered version
 if [ "$foundTag" = true ]
 then
   echo Found existing tag for version $_VERSION , docker image will not be pushed
 else
-  docker push docker.pkg.github.com/$GITHUB_REPOSITORY_PATH/$ARTIFACT:$_VERSION
+  docker push ghcr.io/$GITHUB_REPOSITORY_PATH/$ARTIFACT:$_VERSION
   echo Docker image for $ARTIFACT version $_VERSION push attempt complete
 fi
