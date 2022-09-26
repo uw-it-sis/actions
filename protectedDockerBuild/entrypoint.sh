@@ -51,7 +51,7 @@ for item in "${allTags[@]}"; do
 done
 
 # build the docker image
-docker login -u sudduth@uw.edu -p $DOCKER_LOGIN_TOKEN ghcr.io
+docker login -u igored@uw.edu -p $DOCKER_LOGIN_TOKEN ghcr.io
 docker build  -f $DOCKERFILE_PATH -t ghcr.io/$GITHUB_REPOSITORY_PATH/$ARTIFACT:$_VERSION .
 
 # push the build to the repository only if there is no existing tag for the discovered version
