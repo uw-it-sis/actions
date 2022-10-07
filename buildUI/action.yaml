@@ -44,7 +44,11 @@ runs:
       working-directory: ${{ inputs.workdir }}
       run: |
         # Minify builds on master.
-        [[  "${BRANCH_NAME}" = "master" ]] &&  npm run build || npm run build-dev
+        if [[ "${{ github.ref_name }}" = "master" ]]; then
+            npm run build
+        else
+            npm run build-dev
+        fi
 
     - name: Create Archive
       shell: bash
