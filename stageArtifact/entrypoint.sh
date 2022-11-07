@@ -1,4 +1,4 @@
-#!/bin/sh -l
+#!/bin/bash -l
 #================================================================================
 #
 # Gather args ...
@@ -25,14 +25,14 @@ function main() {
   #
   # Get into the correct directory.
   #
-  cd $WORKDIR
+  cd "$WORKDIR"
 
   #
   # Get the branch name
   # https://github.community/t5/GitHub-Actions/Wrong-branch-displayed-for-workflow/m-p/37985#M3178
   #
   export _BRANCH=$(echo ${GITHUB_REF} | cut -d\/ -f3)
-  set-output branch $_BRANCH
+  set-output branch "$_BRANCH"
 
   #
   # Set the artifact bucket name based on the branch.
@@ -58,7 +58,7 @@ function main() {
         #
         export _BUCKET="${COLLECTIVE}-dev-${ARTIFACT_BUCKET_BASE}"
         set_vars
-        stage-artifact $ARTIFACT $_BUCKET $OBJECT_NAME
+        stage-artifact "$ARTIFACT" "$_BUCKET" "$OBJECT_NAME"
 
         #
         # Set the bucket to eval, and let the main code do the staging
@@ -77,7 +77,7 @@ function main() {
   esac
 
   set_vars
-  stage-artifact $ARTIFACT $_BUCKET $OBJECT_NAME
+  stage-artifact "$ARTIFACT" "$_BUCKET" "$OBJECT_NAME"
 }
 
 #
@@ -88,7 +88,7 @@ function main() {
 # Set global variables (and outputs)
 #
 function set_vars() {
-  set-output artifactBucket $_BUCKET
+  set-output artifactBucket "$_BUCKET"
 
   #
   # Get the version
@@ -98,13 +98,13 @@ function set_vars() {
       exit 1
   fi
   export VERSION=`jq -r .version package.json`
-  set-output version $VERSION
+  set-output version "$VERSION"
 
   #
   # Put together the object name for the upload.
   #
   export OBJECT_NAME="$REPO_NAME/$VERSION/$ARTIFACT"
-  set-output s3Object $OBJECT_NAME
+  set-output s3Object "$OBJECT_NAME"
 
   #
   # Put together the full path for the staged artifact
@@ -122,8 +122,8 @@ function set-output() {
   local value="$2"
 
   echo "setting output: $name=$value"
-  echo "$name=$value" >> $GITHUB_ENV
-  echo "::set-output name=$name::$value"
+  echo "$name=$value" >> "$GITHUB_ENV"
+  echo "$name=$value" >> "$GITHUB_OUTPUT"
 }
 
 #
@@ -144,8 +144,8 @@ function stage-artifact() {
   #
   # Artifacts in the release/master bucket should not be overwritten, so check and fail if it does.
   #
-  if [ ${_BRANCH} = "master" ]; then
-    aws s3api head-object --bucket $bucket --key $object_name &>/dev/null
+  if [ "${_BRANCH}" = "master" ]; then
+    aws s3api head-object --bucket "$bucket" --key "$object_name" &>/dev/null
     retVal=$?
     # The exit code will be 255 if the artifact does not exist or 0 if it exists.
     # Note: The space between the bracket and the $ is very important.
