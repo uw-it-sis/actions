@@ -19,6 +19,7 @@ inputs:
   forceStageToDev:
     description: 'Normally this action will refuse to publish artifacts if it is not running on an SCM branch. To better facilitate testing, you can set this var to "true" in order to publish to the dev environment from a non SCM branch'
     default: 'false'
+
 outputs:
   artifactBucket:
     description: 'The name of the artifact bucket the object was uploaded to'
@@ -30,13 +31,17 @@ outputs:
     description: 'The path of the S3 object within the bucket'
   s3ArtifactUri:
     description: 'The full S3Uri path to the staged artifact'
+
 runs:
-  using: 'docker'
-  image: 'Dockerfile'
-  args:
-    - ${{ inputs.workdir }}
-    - ${{ inputs.collective }}
-    - ${{ inputs.bucketBase }}
-    - ${{ inputs.artifact }}
-    - ${{ inputs.repoOverride }}
-    - ${{ inputs.forceStageToDev }}
+  using: 'composite'
+  steps:
+    - name: Stage Artifact
+      shell: bash
+      run: |
+        $GITHUB_ACTION_PATH/entrypoint.sh \
+          ${{ inputs.workdir }} \
+          ${{ inputs.collective }} \
+          ${{ inputs.bucketBase }} \
+          ${{ inputs.artifact }} \
+          ${{ inputs.repoOverride }} \
+          ${{ inputs.forceStageToDev }}
