@@ -14,7 +14,7 @@ runs:
   using: "composite"
   steps:
     - name: Checkout Source
-      uses: actions/checkout@v1
+      uses: actions/checkout@v2
 
     - name: Setup NodeJS 14
       uses: actions/setup-node@v1
@@ -45,6 +45,7 @@ runs:
       shell: bash
       working-directory: ${{ inputs.workdir }}
       run: |
+        echo "Running npm pack"
         echo "::group::npm pack output"
         npm pack
         echo "::endgroup::"
