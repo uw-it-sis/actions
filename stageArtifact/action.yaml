@@ -23,19 +23,25 @@ inputs:
 outputs:
   artifactBucket:
     description: 'The name of the artifact bucket the object was uploaded to'
+    value: ${{ steps.stageArtifact.outputs.artifactBucket }}
   branch:
     description: 'The name of the branch'
+    value: ${{ steps.stageArtifact.outputs.branch }}
   version:
     description: 'The version of the artifact which was read from package.json'
+    value: ${{ steps.stageArtifact.outputs.version }}
   s3Object:
     description: 'The path of the S3 object within the bucket'
+    value: ${{ steps.stageArtifact.outputs.s3Object }}
   s3ArtifactUri:
     description: 'The full S3Uri path to the staged artifact'
+    value: ${{ steps.stageArtifact.outputs.s3ArtifactUri }}
 
 runs:
   using: 'composite'
   steps:
     - name: Stage Artifact
+      id: stageArtifact
       shell: bash
       run: |
         $GITHUB_ACTION_PATH/entrypoint.sh \
