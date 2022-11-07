@@ -14,7 +14,7 @@ main() {
             --lambda-function-name ) LAMBDA_FUNCTION_NAME=$1 ; shift ;;
             --artifact-s3-bucket ) ARTIFACT_S3_BUCKET=$1 ; shift ;;
             --artifact-s3-key ) ARTIFACT_S3_KEY=$1 ; shift ;;
-            *) fail "Invalid argument: $arg_name"
+            *) fail "Invalid argument: $arg"
         esac
     done
 
