@@ -39,9 +39,12 @@ runs:
       run: npm ci
       env:
         NODE_AUTH_TOKEN: ${{ inputs.node_auth_token }}
-        CI: true
+        CI: "true"
 
     - name: Build
       shell: bash
       working-directory: ${{ inputs.workdir }}
-      run: npm pack
+      run: |
+        echo "::group::npm pack output"
+        npm pack
+        echo "::endgroup::"
