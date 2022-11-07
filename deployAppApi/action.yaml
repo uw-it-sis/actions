@@ -1,5 +1,5 @@
-name: 'Build UI'
-description: 'Builds the UI artifact for a SIS cloud app'
+name: 'Deploy App Api'
+description: 'Deploys the code for a SISCloud App Api to its lambda'
 inputs:
 
   artifact_s3_bucket:
@@ -11,9 +11,11 @@ inputs:
     required: true
 
   collective:
+    description: "The collective to deploy to"
     required: true
 
   environment:
+    description: "The environment to deploy to"
     required: true
 
   lambda_function_name:
@@ -25,7 +27,13 @@ runs:
   steps:
     - name: Deploy app api
       shell: bash
-      run: $GITHUB_ACTION_PATH/deploy.sh
+      run: |
+        $GITHUB_ACTION_PATH/deploy.sh \
+          --collective ${{ inputs.collective }} \
+          --environment ${{ inputs.environment }} \
+          --lambda-function-name ${{ inputs.lambda_function_name }} \
+          --artifact-s3-bucket ${{ inputs.artifact_s3_bucket }} \
+          --artifact-s3-key ${{ inputs.artifact_s3_key }}
 
     # - name: Determine lambda name
     #   shell: bash
