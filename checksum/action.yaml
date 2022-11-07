@@ -14,5 +14,5 @@ runs:
   using: "composite"
   steps:
     - id: checksum
-      run: echo "::set-output name=checksum::$($GITHUB_ACTION_PATH/checksum.sh ${{ inputs.width }})"
       shell: bash
+      run: echo "checksum=$( $GITHUB_ACTION_PATH/checksum.sh ${{ inputs.width }} )" >> $GITHUB_OUTPUT
