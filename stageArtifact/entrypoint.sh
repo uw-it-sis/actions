@@ -8,6 +8,7 @@ COLLECTIVE=$2
 ARTIFACT_BUCKET_BASE=$3
 ARTIFACT=$4
 REPO_OVERRIDE=$5
+FORCE_STAGE_TO_DEV=$6
 
 function main() {
   #
@@ -65,8 +66,13 @@ function main() {
         export _BUCKET="${COLLECTIVE}-eval-${ARTIFACT_BUCKET_BASE}"
         ;;
       *)
-        echo >&2 "This isn't an SCM-workflow branch. Exiting"
-        exit 1
+        if [[ "${FORCE_STAGE_TO_DEV}" = "true" ]]; then
+          # Use the development bucket for testing purposes
+          export _BUCKET="${COLLECTIVE}-dev-${ARTIFACT_BUCKET_BASE}"
+        else
+          echo >&2 "This isn't an SCM-workflow branch. Exiting"
+          exit 1
+        fi
         ;;
   esac
 

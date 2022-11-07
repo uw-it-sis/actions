@@ -16,6 +16,9 @@ inputs:
   repoOverride:
     description: 'An alternate name for the repo. If not provided the repo name will be extracted from the GITHUB_REPOSITORY variable'
     default: 'unset'
+  forceStageToDev:
+    description: 'Normally this action will refuse to publish artifacts if it is not running on an SCM branch. To better facilitate testing, you can set this var to "true" in order to publish to the dev environment from a non SCM branch'
+    default: 'false'
 outputs:
   artifactBucket:
     description: 'The name of the artifact bucket the object was uploaded to'
@@ -36,3 +39,4 @@ runs:
     - ${{ inputs.bucketBase }}
     - ${{ inputs.artifact }}
     - ${{ inputs.repoOverride }}
+    - ${{ inputs.forceStageToDev }}
