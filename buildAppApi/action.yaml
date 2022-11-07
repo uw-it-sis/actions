@@ -24,7 +24,7 @@ runs:
         scope: '@uw-it-sis'
 
     - name: Get Checksum
-      uses: uw-it-sis/actions/checksum@master
+      uses: uw-it-sis/actions/checksum@SISENG-2159 # TODO return to master!
       id: checksum
 
     - name: Write build number to file
