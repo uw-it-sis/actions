@@ -23,25 +23,29 @@ inputs:
 runs:
   using: "composite"
   steps:
-    - name: Determine lambda name
+    - name: Deploy app api
       shell: bash
-      id: lambda_name
-      run: |
-        # per the terraform definition, the lambda name defaults to the name of the code artifact without the extension
-        if [[ ${{ inputs.lambda_function_name }} == "unset" ]]; then
-          artifact=$(basename ${{ inputs.artifact_s3_key }})
-          name=${{ inputs.collective }}-${{ inputs.environment }}-${artifact%.zip}
-        else
-          name=${{ inputs.lambda_function_name }}
-        fi
-        echo "::set-output name=lambda_function_name::$name"
+      run: $GITHUB_ACTION_PATH/deploy.sh
+
+    # - name: Determine lambda name
+    #   shell: bash
+    #   id: lambda_name
+    #   run: |
+    #     # per the terraform definition, the lambda name defaults to the name of the code artifact without the extension
+    #     if [[ ${{ inputs.lambda_function_name }} == "unset" ]]; then
+    #       artifact=$(basename ${{ inputs.artifact_s3_key }})
+    #       name=${{ inputs.collective }}-${{ inputs.environment }}-${artifact%.zip}
+    #     else
+    #       name=${{ inputs.lambda_function_name }}
+    #     fi
+    #     echo "::set-output name=lambda_function_name::$name"
 
 
-    - name: Deploy App Api
-      shell: bash
-      run: |
-        aws lambda update-function-code \
-          --function-name ${{ steps.lambda_name.outputs.lambda_function_name }} \
-          --s3-bucket ${{ inputs.artifact_s3_bucket }} \
-          --s3-key    ${{ inputs.artifact_s3_key }} \
-          > /dev/null # don't print the whole lambda config
+    # - name: Deploy App Api
+    #   shell: bash
+    #   run: |
+    #     aws lambda update-function-code \
+    #       --function-name ${{ steps.lambda_name.outputs.lambda_function_name }} \
+    #       --s3-bucket ${{ inputs.artifact_s3_bucket }} \
+    #       --s3-key    ${{ inputs.artifact_s3_key }} \
+    #       > /dev/null # don't print the whole lambda config
