@@ -4,13 +4,6 @@ set -euo pipefail
 
 main() {
 
-# Print out the arguments that were passed in.
-# This helps with debugging these actions
-echo "Script arguments:"
-for a in "$@"; do
-    echo "    $a"
-done
-
 # Parse arguments
 while [[ $# -gt 0 ]]; do
     arg=$1
@@ -38,6 +31,7 @@ if [[ "$LAMBDA_FUNCTION_NAME" == "unset" ]]; then
     artifact=$(basename "$ARTIFACT_S3_KEY")
     LAMBDA_FUNCTION_NAME="$COLLECTIVE-$ENVIRONMENT-${artifact%.zip}"
 fi
+echo "Lambda function name: ${LAMBDA_FUNCTION_NAME}"
 # echo "::set-output name=lambda_function_name::$LAMBDA_FUNCTION_NAME"
 
 echo "Updating function code..."
@@ -48,18 +42,14 @@ updateResponse=$(
         --s3-bucket "$ARTIFACT_S3_BUCKET" \
         --s3-key    "$ARTIFACT_S3_KEY" \
 )
-echo "Updated."
-
-
 version=$(echo "$updateResponse" | jq -r .Version)
-
-echo >&2 "version: $version" # TODO DELETE ME
+echo "Lambda version $version published"
 
 echo "Pointing lambda alias 'latest' to function version '$version'"
-aws lambda update-function-code \
+aws lambda update-alias \
     --function-name "$LAMBDA_FUNCTION_NAME" \
     --name latest \
-    --version "$version"
+    --function-version "$version"
 
 }
 
