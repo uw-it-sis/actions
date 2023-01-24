@@ -50,6 +50,7 @@ main() {
         --qualifier "$version" \
         --query Configuration.State)
 
+    timeout_counter=0
     while [[ "$state" = \"Pending\" ]] ; do
         sleep 3
 
@@ -58,6 +59,11 @@ main() {
             --qualifier "$version" \
             --query Configuration.State)
 
+        (( timeout_counter ++ ))
+        if [[ $timeout_counter -ge 5 ]]; then
+            echo >&2 "Error: timed out waiting for lambda to publish"
+            exit 1
+        fi
     done
     echo "Lambda version $version published"
 
