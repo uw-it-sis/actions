@@ -42,6 +42,23 @@ main() {
             --s3-key    "$ARTIFACT_S3_KEY" \
     )
     version=$(echo "$updateResponse" | jq -r .Version)
+    echo "Lambda version $version publishing..."
+
+    # Wait until the new version has finished publishing
+    state=$(aws lambda get-function \
+        --function-name "$LAMBDA_FUNCTION_NAME" \
+        --qualifier "$version" \
+        --query Configuration.State)
+
+    while [[ "$state" = \"Pending\" ]] ; do
+        sleep 3
+
+        state=$(aws lambda get-function \
+            --function-name "$LAMBDA_FUNCTION_NAME" \
+            --qualifier "$version" \
+            --query Configuration.State)
+
+    done
     echo "Lambda version $version published"
 
     echo "Pointing lambda alias 'latest' to function version '$version'"
