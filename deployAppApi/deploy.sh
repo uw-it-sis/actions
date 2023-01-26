@@ -59,7 +59,7 @@ main() {
             --qualifier "$version" \
             --query Configuration.State)
 
-        (( timeout_counter ++ ))
+        (( timeout_counter += 1 ))
         if [[ $timeout_counter -ge 5 ]]; then
             echo >&2 "Error: timed out waiting for lambda to publish"
             exit 1
