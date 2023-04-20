@@ -36,7 +36,7 @@ runs:
     - name: Install NPM dependencies
       shell: bash
       working-directory: ${{ inputs.workdir }}
-      run: npm ci --legacy-peer-deps
+      run: npm ci --legacy-peer-deps   # FIXME: Remove the legacy-peer-deps option once SISENG-2245 is resolved
       env:
         NODE_AUTH_TOKEN: ${{ inputs.node_auth_token }}
         CI: "true"
