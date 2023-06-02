@@ -1,0 +1,23 @@
+name: 'The Claw build callback'
+description: 'Tell The Claw about our build status.'
+inputs:
+
+  collective:
+    description: "The collective that this module belongs to"
+    required: true
+
+  status:
+    description: "The status of this build; 'success' or 'failed'."
+    required: true
+
+  client_id:
+    description: "The client_id used to obtain oauth2 creds."
+    required: true
+
+  client_secret:
+    description: "The client_secret used to obtain oauth2 creds."
+    required: true
+
+runs:
+  using: 'node16'
+  main: 'dist/index.js'
