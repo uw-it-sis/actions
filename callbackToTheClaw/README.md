@@ -6,6 +6,45 @@ The dev flow is different for this repo: we build the "binary" locally using `nc
 source control. Ncc is similar to webpack in that it merges code and dependencies into a single javascript file. This is
 the workflow suggested by the [Github Actions documentation](https://docs.github.com/en/actions/creating-actions/creating-a-javascript-action#commit-tag-and-push-your-action-to-github).
 
+# Using this action
+
+Here is a sample use of this action. You'll need to update the "needs" field to reference all build "jobs" that should
+finish before we run the callback. For app-apis, it will typically be set to `needs: [build-app-api, build-ui]`.
+
+It is implemented as two separate "jobs" to ensure that the failure callback runs correctly. I tried making it a single
+job that always runs, but placing the "if" conditional on a step hides the status of previous jobs, causing it to always
+return success even if a previous job has failed.
+
+```
+  callback-to-theclaw-success:
+    runs-on: ubuntu-latest
+    needs: [build]
+    if: ${{ success() }}
+    steps:
+      - name: Callback To The Claw
+        uses: uw-it-sis/actions/callbackToTheClaw@master
+        id: callback-to-theclaw
+        with:
+          collective: ${{ env.COLLECTIVE }}
+          status: "success"
+          client_id: ${{ secrets.THECLAW_CALLBACK_CLIENT_ID }}
+          client_secret: ${{ secrets.THECLAW_CALLBACK_CLIENT_SECRET }}
+
+  callback-to-theclaw-failure:
+    runs-on: ubuntu-latest
+    needs: [build]
+    if: ${{ failure() }}
+    steps:
+      - name: Callback To The Claw
+        uses: uw-it-sis/actions/callbackToTheClaw@master
+        id: callback-to-theclaw
+        with:
+          collective: ${{ env.COLLECTIVE }}
+          status: "failure"
+          client_id: ${{ secrets.THECLAW_CALLBACK_CLIENT_ID }}
+          client_secret: ${{ secrets.THECLAW_CALLBACK_CLIENT_SECRET }}
+
+```
 
 # Development
 - Make your changes
