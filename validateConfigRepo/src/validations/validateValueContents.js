@@ -114,12 +114,6 @@ function validateValueContents(config, forbiddenStrings) {
             // This is equivalent to: offendingSubstrings - permittedSubstrings
             let offenses = offendingSubstrings.filter(x => !permittedSubstrings.includes(x));
 
-            // console.log(`variableValue.text: `, variableValue.text)  // TODO DELETE ME
-            // console.log(`offendingSubstrings: `, offendingSubstrings)  // TODO DELETE ME
-            // console.log(`permittedSubstrings: `, permittedSubstrings)  // TODO DELETE ME
-            // console.log(`offenses: `, offenses)  // TODO DELETE ME
-            // console.log()  // TODO DELETE ME
-
             return {
                 sectionName,
                 variableName,
