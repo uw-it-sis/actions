@@ -47,8 +47,9 @@ function main() {
         }
     }).filter(config => !_.isUndefined(config));
 
-    // look for validation issues
+    // Look for yaml structure issues.
     configs.forEach(config => {
+        console.log(`Validating structure of config [${config.file}]...`)
         let configIssues = validateStructure(config);
         issues.push(...configIssues);
     });
@@ -69,6 +70,7 @@ function main() {
     // This check looks for dev/eval variables that might've been accidentally
     // committed to prod configs. For now, only check prod variables.
     let prodConfig = configs.find(c => c.file == 'prod/variables.yaml');
+    console.log(`Checking [${prodConfig.file}] for invalid prod configs...`)
 
     // These are strings that should NOT be found in any prod values (unless annotated otherwise)
     const invalidProdValues = ['dev', 'eval', 'test'];
