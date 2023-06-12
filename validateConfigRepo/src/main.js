@@ -14,13 +14,11 @@ const {
     validateStructure,
     validateMatchingConfigItems,
     validateValueContents,
-} = require('./validate');
+} = require('./validations');
 const Config = require('./Config');
 const Issue = require('./Issue');
 
 function main() {
-    // TODO will need to convert this action to a docker action methinks
-
     // Take the config repo path as the first argument, or default to cwd if not given.
     let workingDir = process.argv[2] ?? process.cwd();
     process.chdir(workingDir);
