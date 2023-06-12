@@ -17,9 +17,7 @@ For easier development, install [entr](https://github.com/eradman/entr/) and run
 will automatically rebuild the binary any time a file is changed.
 
 ## Testing
-You can run the code locally against a config repo. It is meant to be run from within the repo, so cd into a config-*
-repo, and run the built binary. E.g. I might run:
+You can run the code locally against a config repo. Pass the directory path as the first argument, e.g.:
 ```
-cd ~/src/uw/config-planning
-node ~/src/uw/actions/validateConfigRepo/dist/index.js
+node ./src/main.js ~/src/uw/config-planning
 ```

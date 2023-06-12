@@ -13,12 +13,18 @@ const core = require('@actions/core'); // github actions
 const {
     validateStructure,
     validateMatchingConfigItems,
+    validateValueContents,
 } = require('./validate');
 const Config = require('./Config');
 const Issue = require('./Issue');
 
 function main() {
-    console.log(`Running from: `, process.cwd());
+    // TODO will need to convert this action to a docker action methinks
+
+    // Take the config repo path as the first argument, or default to cwd if not given.
+    let workingDir = process.argv[2] ?? process.cwd();
+    process.chdir(workingDir);
+    console.log(`Validating repo: `, workingDir);
 
     // Find config files
     let configFiles = fs.readdirSync('.')
@@ -62,6 +68,15 @@ function main() {
     // ]
     // issues.push(...mismatches);
 
+    // This check looks for dev/eval variables that might've been accidentally
+    // committed to prod configs. For now, only check prod variables.
+    let prodConfig = configs.find(c => c.file == 'prod/variables.yaml');
+
+    // These are strings that should NOT be found in any prod values (unless annotated otherwise)
+    const invalidProdValues = ['dev', 'eval', 'test'];
+    let prodInvalidValues = validateValueContents(prodConfig, invalidProdValues);
+    issues.push(...prodInvalidValues);
+
     let fileErrors = groupIssuesByFile(issues);
 
     if (issues.length > 0) {
@@ -69,7 +84,8 @@ function main() {
         fileErrors.forEach(file => {
             // core.setFailed will mark this run as a failure
             core.setFailed(`Config file [${file.file}] had ${file.errors.length} error(s):`);
-            file.errors.forEach(e => core.error(`    ${e}`));
+            file.errors.forEach(e => core.error(`    ${file.file}: ${e}`));
+            console.log();
         });
     } else {
         core.info("All config files look valid");

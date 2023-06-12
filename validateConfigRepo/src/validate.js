@@ -3,6 +3,10 @@
 const _ = require('underscore');
 const Issue = require('./Issue');
 
+const {validateValueContents} = require('./validations/validateValueContents');
+
+
+// TODO move these validation functions to their own files.
 
 /**
  * A valid config file should have the following structure:
@@ -120,3 +124,4 @@ function validateMatchingConfigItems(configSets) {
 
 module.exports.validateStructure = validateStructure;
 module.exports.validateMatchingConfigItems = validateMatchingConfigItems;
+module.exports.validateValueContents = validateValueContents;
