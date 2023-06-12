@@ -1,0 +1,11 @@
+name: 'Read SISCloud Config'
+description: "Reads the .siscloud.json repo config file, exporting its values to env-vars"
+
+runs:
+  using: 'composite'
+  steps:
+    - name: Read SISCloud Config
+      id: read-siscloud-config
+      shell: bash
+      run: |
+        $GITHUB_ACTION_PATH/entrypoint.sh
