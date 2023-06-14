@@ -24744,6 +24744,7 @@ async function gatherInputs() {
     console.log(`dir: `, dir)  // TODO DELETE ME
 
     // If collective or bloc weren't defined as inputs, try reading them out of the config file
+    console.log(`collective: `, collective)  // TODO DELETE ME
     if (!collective || !bloc) {
         const configFilePath = `${process.env.GITHUB_WORKSPACE}/.siscloud.json`
         let siscloudConfig;
@@ -24756,10 +24757,13 @@ async function gatherInputs() {
         }
 
         // Use the existing values if the are defined, otherwise use values from the config file.
+        console.log(`collective: `, collective)  // TODO DELETE ME
         collective = collective ?? siscloudConfig.collective;
+        console.log(`collective: `, collective)  // TODO DELETE ME
         bloc = bloc ?? siscloudConfig.bloc;
     }
 
+    console.log(`collective: `, collective)  // TODO DELETE ME
     if (!collective) {
         throw new Error("Error, collective is missing or undefined. Add collective to .siscloud.json");
     }
