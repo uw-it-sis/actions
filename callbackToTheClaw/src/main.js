@@ -54,7 +54,7 @@ async function gatherInputs() {
 
     let collective = process.env.INPUT_COLLECTIVE;
     let bloc = process.env.INPUT_BLOC;
-  // TODO DELETE ME
+    // TODO DELETE ME
     let dir = readdirSync(process.env.GITHUB_WORKSPACE);  // TODO DELETE ME
     console.log(`dir: `, dir)  // TODO DELETE ME
 
@@ -64,7 +64,9 @@ async function gatherInputs() {
         const configFilePath = `${process.env.GITHUB_WORKSPACE}/.siscloud.json`
         let siscloudConfig;
         try {
+            console.log(`READING FILE`)  // TODO DELETE ME
             let data = readFileSync(configFilePath);
+            console.log(`data: `, data)  // TODO DELETE ME
             siscloudConfig = JSON.parse(data);
             console.log(`siscloudConfig: `, siscloudConfig)  // TODO DELETE ME
         } catch (e) {
@@ -73,8 +75,8 @@ async function gatherInputs() {
 
         // Use the existing values if the are defined, otherwise use values from the config file.
         console.log(`collective: `, collective)  // TODO DELETE ME
+        console.log(`siscloudConfig.collective: `, siscloudConfig.collective)  // TODO DELETE ME
         collective = collective ?? siscloudConfig.collective;
-      console.log(`siscloudConfig.collective: `, siscloudConfig.collective)  // TODO DELETE ME
         console.log(`collective: `, collective)  // TODO DELETE ME
         bloc = bloc ?? siscloudConfig.bloc;
     }
