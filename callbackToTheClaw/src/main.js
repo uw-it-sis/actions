@@ -54,6 +54,9 @@ async function gatherInputs() {
 
     let collective = process.env.INPUT_COLLECTIVE;
     let bloc = process.env.INPUT_BLOC;
+  // TODO DELETE ME
+    let dir = fs.readdirSync(process.env.GITHUB_WORKSPACE);  // TODO DELETE ME
+    console.log(`dir: `, dir)  // TODO DELETE ME
 
     // If collective or bloc weren't defined as inputs, try reading them out of the config file
     if (!collective || !bloc) {
