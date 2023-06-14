@@ -24747,7 +24747,7 @@ async function gatherInputs() {
     if (!collective || !bloc) {
         const configFilePath = `${process.env.GITHUB_WORKSPACE}/.siscloud.json`
         try {
-            data = readFileSync(configFilePath);
+            let data = readFileSync(configFilePath);
             siscloudConfig = JSON.parse(data)
         } catch (e) {
             throw new Error(`Could not read/parse config file ${configFilePath}: ${e}`);
