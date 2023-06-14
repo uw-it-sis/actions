@@ -24749,7 +24749,8 @@ async function gatherInputs() {
         let siscloudConfig;
         try {
             let data = readFileSync(configFilePath);
-            siscloudConfig = JSON.parse(data)
+            siscloudConfig = JSON.parse(data);
+            console.log(`siscloudConfig: `, siscloudConfig)  // TODO DELETE ME
         } catch (e) {
             throw new Error(`Could not read/parse config file ${configFilePath}: ${e}`);
         }
