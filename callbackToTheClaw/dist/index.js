@@ -24689,7 +24689,7 @@ const core = __nccwpck_require__(2186); // github actions
 const github = __nccwpck_require__(5438); // github actions
 const ServicesClient = __nccwpck_require__(2632);
 const BasicHttpClient = __nccwpck_require__(6236);
-const {readFileSync} = __nccwpck_require__(7147);
+const {readFileSync, readdirSync} = __nccwpck_require__(7147);
 
 async function main() {
 
@@ -24740,7 +24740,7 @@ async function gatherInputs() {
     let collective = process.env.INPUT_COLLECTIVE;
     let bloc = process.env.INPUT_BLOC;
   // TODO DELETE ME
-    let dir = fs.readdirSync(process.env.GITHUB_WORKSPACE);  // TODO DELETE ME
+    let dir = readdirSync(process.env.GITHUB_WORKSPACE);  // TODO DELETE ME
     console.log(`dir: `, dir)  // TODO DELETE ME
 
     // If collective or bloc weren't defined as inputs, try reading them out of the config file
