@@ -62,6 +62,7 @@ Create a file `test.env` with the contents:
 ```
 THECLAW_ENVIRONMENT=local
 INPUT_COLLECTIVE=wutang
+INPUT_BLOC=wutang
 INPUT_STATUS=failure
 BASE_URL=http://localhost:8080
 GITHUB_SHA=<a_commit_hash_you_want_to_send_to_the_claw>
@@ -77,6 +78,7 @@ To test against dev, you'll need to fill out a few secrets:
 ```
 THECLAW_ENVIRONMENT=dev
 INPUT_COLLECTIVE=wutang
+INPUT_BLOC=wutang
 INPUT_STATUS=failure
 INPUT_CLIENT_ID=<add_the_dev_secret_here!>
 INPUT_CLIENT_SECRET=<add_the_dev_secret_here!>

@@ -9,7 +9,7 @@ const {readFileSync} = require('fs');
 async function main() {
 
     // Gather inputs. They come from various places depending on the running context.
-    const config = gatherInputs();
+    const config = await gatherInputs();
 
     // Create a client
     let client;
@@ -52,30 +52,30 @@ async function gatherInputs() {
     const commithash = github.context.sha;
     const envExtension = environment == "dev" ? "-dev" : "";
 
-    // In a real build, config and bloc should come out of the .siscloud.json config file, but for local and dev builds,
-    // support getting them out of env-vars for testing.
-    let collective, bloc;
-    if (environment == "prod") {
-        let data, siscloudConfig;
+    let collective = process.env.INPUT_COLLECTIVE;
+    let bloc = process.env.INPUT_BLOC;
+
+    // If collective or bloc weren't defined as inputs, try reading them out of the config file
+    if (!collective || !bloc) {
+        const configFilePath = `${process.env.GITHUB_WORKSPACE}/.siscloud.json`
         try {
-            data = readFileSync(f);
+            data = readFileSync(configFilePath);
             siscloudConfig = JSON.parse(data)
         } catch (e) {
-            throw new Error(`Could not read/parse config file ${f}: ${e}`);
+            throw new Error(`Could not read/parse config file ${configFilePath}: ${e}`);
         }
-        collective = siscloudConfig.collective;
-        bloc = bloc.collective;
-    } else {
-        collective = process.env.COLLECTIVE;
-        bloc = process.env.BLOC;
+
+        // Use the existing values if the are defined, otherwise use values from the config file.
+        collective = collective ?? siscloudConfig.collective;
+        bloc = bloc ?? siscloudConfig.bloc;
     }
 
     if (!collective) {
-        throw new Error("Error, collective is missing or undefined");
+        throw new Error("Error, collective is missing or undefined. Add collective to .siscloud.json");
     }
 
     if (!bloc) {
-        throw new Error("Error, bloc is missing or undefined");
+        throw new Error("Error, bloc is missing or undefined. Add bloc to .siscloud.json");
     }
 
     return {
