@@ -74,6 +74,7 @@ async function gatherInputs() {
         // Use the existing values if the are defined, otherwise use values from the config file.
         console.log(`collective: `, collective)  // TODO DELETE ME
         collective = collective ?? siscloudConfig.collective;
+      console.log(`siscloudConfig.collective: `, siscloudConfig.collective)  // TODO DELETE ME
         console.log(`collective: `, collective)  // TODO DELETE ME
         bloc = bloc ?? siscloudConfig.bloc;
     }
