@@ -1,5 +1,5 @@
 {
   "bloc": "siscloud",
   "collective": "actions",
-  "module_name": "actions"
+  "module": "actions"
 }
