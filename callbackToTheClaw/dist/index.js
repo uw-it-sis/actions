@@ -24746,6 +24746,7 @@ async function gatherInputs() {
     // If collective or bloc weren't defined as inputs, try reading them out of the config file
     if (!collective || !bloc) {
         const configFilePath = `${process.env.GITHUB_WORKSPACE}/.siscloud.json`
+        let siscloudConfig;
         try {
             let data = readFileSync(configFilePath);
             siscloudConfig = JSON.parse(data)
