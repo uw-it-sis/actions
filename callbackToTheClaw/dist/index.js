@@ -24739,34 +24739,23 @@ async function gatherInputs() {
 
     let collective = process.env.INPUT_COLLECTIVE;
     let bloc = process.env.INPUT_BLOC;
-    // TODO DELETE ME
-    let dir = readdirSync(process.env.GITHUB_WORKSPACE);  // TODO DELETE ME
-    console.log(`dir: `, dir)  // TODO DELETE ME
 
     // If collective or bloc weren't defined as inputs, try reading them out of the config file
-    console.log(`collective: `, collective)  // TODO DELETE ME
     if (!collective || !bloc) {
         const configFilePath = `${process.env.GITHUB_WORKSPACE}/.siscloud.json`
         let siscloudConfig;
         try {
-            console.log(`READING FILE`)  // TODO DELETE ME
             let data = readFileSync(configFilePath);
-            console.log(`data: `, data)  // TODO DELETE ME
             siscloudConfig = JSON.parse(data);
-            console.log(`siscloudConfig: `, siscloudConfig)  // TODO DELETE ME
         } catch (e) {
             throw new Error(`Could not read/parse config file ${configFilePath}: ${e}`);
         }
 
         // Use the existing values if the are defined, otherwise use values from the config file.
-        console.log(`collective: `, collective)  // TODO DELETE ME
-        console.log(`siscloudConfig.collective: `, siscloudConfig.collective)  // TODO DELETE ME
         collective = collective ?? siscloudConfig.collective;
-        console.log(`collective: `, collective)  // TODO DELETE ME
         bloc = bloc ?? siscloudConfig.bloc;
     }
 
-    console.log(`collective: `, collective)  // TODO DELETE ME
     if (!collective) {
         throw new Error("Error, collective is missing or undefined. Add collective to .siscloud.json");
     }
