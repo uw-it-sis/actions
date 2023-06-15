@@ -66,7 +66,7 @@ async function gatherInputs() {
             throw new Error(`Could not read/parse config file ${configFilePath}: ${e}`);
         }
 
-        // Use the existing values if the are defined, otherwise use values from the config file.
+        // Use the existing values if they are defined, otherwise use values from the config file.
         collective = collective ?? siscloudConfig.collective;
         bloc = bloc ?? siscloudConfig.bloc;
     }
