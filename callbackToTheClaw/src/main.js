@@ -31,7 +31,7 @@ async function main() {
     }
 
     // Send the callback to The Claw
-    const url = `${baseUrl}/theclaw/${config.bloc}/${config.collective}/builds/${config.commithash}/${config.status}`
+    const url = `${baseUrl}/theclaw/builds/${config.commithash}/${config.status}?bloc=${config.bloc}&collective=${config.collective}`
     try {
         await client.doPut(url, {}); // No body to send, all of the info is in the URL
     } catch (e) {
