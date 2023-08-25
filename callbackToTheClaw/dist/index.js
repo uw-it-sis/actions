@@ -24716,7 +24716,7 @@ async function main() {
     }
 
     // Send the callback to The Claw
-    const url = `${baseUrl}/theclaw/${config.bloc}/${config.collective}/builds/${config.commithash}/${config.status}`
+    const url = `${baseUrl}/theclaw/builds/${config.commithash}/${config.status}?bloc=${config.bloc}&collective=${config.collective}`
     try {
         await client.doPut(url, {}); // No body to send, all of the info is in the URL
     } catch (e) {
@@ -24751,7 +24751,7 @@ async function gatherInputs() {
             throw new Error(`Could not read/parse config file ${configFilePath}: ${e}`);
         }
 
-        // Use the existing values if the are defined, otherwise use values from the config file.
+        // Use the existing values if they are defined, otherwise use values from the config file.
         collective = collective ?? siscloudConfig.collective;
         bloc = bloc ?? siscloudConfig.bloc;
     }
