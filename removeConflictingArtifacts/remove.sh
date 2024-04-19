@@ -47,6 +47,8 @@ versionsToDelete=()
 packagesToDelete=()
 
 for p in "${packageNames[@]}"; do
+  echo "Resolving artifact conflicts for package $p version $version"
+
   # Query for the number of versions which are published for the given package ...
   versionCount=$(curl -s -L -X GET -H "Accept: application/vnd.github+json"  -H "X-GitHub-Api-Version: 2022-11-28" \
     -H "Authorization: Bearer ${token}" https://api.github.com/orgs/uw-it-sis/packages/maven/${p} \
