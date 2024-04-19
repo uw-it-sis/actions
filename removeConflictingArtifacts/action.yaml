@@ -1,0 +1,15 @@
+name: 'Remove Conflicting Artifacts'
+description: 'Removes artifacts for the given version of the modules defined in the current repo'
+inputs:
+  auth_token:
+    description: 'An access token which has package delete privs'
+    required: true
+  version:
+    description: 'The version of interest'
+    required: true
+runs:
+  using: 'docker'
+  image: 'Dockerfile'
+  args:
+    - ${{ inputs.auth_token }}
+    - ${{ inputs.version }}
