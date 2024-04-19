@@ -36,7 +36,7 @@ poms=( $(find . -not -path "*/test/*" -name pom.xml) )
 for fileName in "${poms[@]}"; do
   groupId=$(xmllint --xpath '/*[local-name()="project"]/*[local-name()="groupId"]/text()' $fileName 2>/dev/null)
   artifactId=$(xmllint  --xpath '/*[local-name()="project"]/*[local-name()="artifactId"]/text()' $fileName)
-  if [[ -n $groupId ]]; then
+  if [[ -z "$groupId" ]]; then
     groupId=$topGroupId
   fi
   packageNames+=("$groupId.$artifactId")
@@ -63,13 +63,15 @@ for p in "${packageNames[@]}"; do
   # If there's only a single version and it matches the given version the add it to the package delete array. Otherwise,
   # shouldn't be a conflict, so just skip it.
   if [[ "$versionCount" -eq 1 ]]; then
-    if [[ -n "$id" ]]; then
+    if [[ -z "$id" ]]; then
+      echo "Queuing package $p ($id) for removal"
       packagesToDelete+=(${p})
     fi
   else
     # Otherwise, if there are multiple versions and the given version is one of them add the path to the resource to the
     # versionsToDelete array  ...
-    if [[ -n "$id" ]]; then
+    if [[ -z "$id" ]]; then
+      echo "Queuing package $p version $id for removal"
       versionsToDelete+=(${p}/versions/${id})
     fi
   fi
