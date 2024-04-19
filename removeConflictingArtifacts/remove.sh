@@ -34,7 +34,7 @@ packageNames=()
 poms=( $(find . -not -path "*/test/*" -name pom.xml) )
 
 for fileName in "${poms[@]}"; do
-  groupId=$(xmllint --xpath '/*[local-name()="project"]/*[local-name()="groupId"]/text()' $fileName)
+  groupId=$(xmllint --xpath '/*[local-name()="project"]/*[local-name()="groupId"]/text()' $fileName 2>/dev/null)
   artifactId=$(xmllint  --xpath '/*[local-name()="project"]/*[local-name()="artifactId"]/text()' $fileName)
   if [[ -n $groupId ]]; then
     groupId=$topGroupId
