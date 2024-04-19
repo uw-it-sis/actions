@@ -24,7 +24,8 @@ then uses the GH API to get package/version info and delete them if necessary.
 **Required** The package version of interest.
 
 ## Example usage
-uses: actions/@v1.2.0
-with:
-  auth_token: 'some_secret'
-  version: 1.2.0
+      - name: Remove Package Conflicts
+        uses: uw-it-sis/actions/removeConflictingArtifacts@master
+        with:
+          auth_token: ${{ secrets.CI_ACCESS_TOKEN }}
+          version: 1.2.0
