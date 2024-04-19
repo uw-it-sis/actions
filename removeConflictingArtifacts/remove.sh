@@ -59,7 +59,7 @@ for p in "${packageNames[@]}"; do
       -H "Authorization: Bearer ${token}" \
       https://api.github.com/orgs/uw-it-sis/packages/maven/${p}/versions \
       | jq --arg v "$version" '.[] | select(.name==$v)| .id' 2>/dev/null)
-
+echo "ID: $id"
   # If there's only a single version and it matches the given version the add it to the package delete array. Otherwise,
   # shouldn't be a conflict, so just skip it.
   if [[ "$versionCount" -eq 1 ]]; then
