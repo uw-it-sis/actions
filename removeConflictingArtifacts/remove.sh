@@ -58,8 +58,10 @@ for p in "${packageNames[@]}"; do
   id=$(curl -s -L -X GET -H "Accept: application/vnd.github+json"  -H "X-GitHub-Api-Version: 2022-11-28" \
       -H "Authorization: Bearer ${token}" \
       https://api.github.com/orgs/uw-it-sis/packages/maven/${p}/versions \
-      | jq --arg v "$version" '.[] | select(.name==$v)| .id' 2>/dev/null)
+      | jq --arg v "$version" '.[] | select(.name==$v)| .id' )
+
 echo "ID: $id"
+
   # If there's only a single version and it matches the given version the add it to the package delete array. Otherwise,
   # shouldn't be a conflict, so just skip it.
   if [[ "$versionCount" -eq 1 ]]; then
