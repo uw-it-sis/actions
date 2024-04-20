@@ -22,6 +22,11 @@ This document generally follows the formatting here: https://keepachangelog.com/
 * the
 ### Deprecated
 * possibilities
+* 
+## [ 1.3.0 ]
+### Added
+* resolvedConflictingArtifacts: Removes conflicting Maven packages before deploying.
+
 
 ## [ 1.2.0 ]
 ### Changed
