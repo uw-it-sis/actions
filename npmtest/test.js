@@ -1,4 +1,4 @@
-
+const ChildProcess = require('child_process');
 
 let stdout = ChildProcess.execSync('which node');
 console.log(`which node stdout: `, stdout)  // TODO DELETE ME
