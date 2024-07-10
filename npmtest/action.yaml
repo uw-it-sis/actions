@@ -1,0 +1,5 @@
+name: 'Javascript npm test'
+description: 'Javascript npm test'
+runs:
+  using: 'node20'
+  main: 'test.js'
