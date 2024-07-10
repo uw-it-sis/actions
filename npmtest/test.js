@@ -5,7 +5,8 @@
 
 console.log(`__dirname: `, __dirname)  // TODO DELETE ME
 
-const ChildProcess = require('child_process');
+const ChildProcess = require('node:child_process');
+process.chdir(__dirname);
 
 const dorun = cmd => {
     let stdout = ChildProcess.execSync(cmd);
@@ -13,6 +14,7 @@ const dorun = cmd => {
 }
 
 dorun('pwd');
+dorun('ls -l');
 dorun('ls -l ..');
 dorun('ls -l ../..');
 dorun('which node');
