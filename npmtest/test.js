@@ -1,6 +1,5 @@
 // import { dirname } from 'path';
 // import { fileURLToPath } from 'url';
-
 // const __dirname = dirname(fileURLToPath(import.meta.url));
 
 console.log(`__dirname: `, __dirname)  // TODO DELETE ME
@@ -19,3 +18,5 @@ dorun('ls -l ..');
 dorun('ls -l ../..');
 dorun('which node');
 dorun('which npm');
+dorun('node --version');
+dorun('echo $PATH');
