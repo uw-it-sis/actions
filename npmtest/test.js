@@ -12,6 +12,7 @@ const dorun = cmd => {
     console.log(`${cmd} stdout: `, stdout.toString())  // TODO DELETE ME
 }
 
+console.log(`process.argv: `, process.argv)  // TODO DELETE ME
 dorun('pwd');
 dorun('ls -l');
 dorun('ls -l ..');
