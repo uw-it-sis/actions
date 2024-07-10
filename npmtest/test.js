@@ -6,5 +6,7 @@ const dorun = cmd => {
 }
 
 dorun('pwd');
+dorun('ls -l ..');
+dorun('ls -l ../..');
 dorun('which node');
 dorun('which npm');
