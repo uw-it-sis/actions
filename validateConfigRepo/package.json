@@ -6,7 +6,7 @@
   "dependencies": {
     "@actions/core": "~1.9.0",
     "js-yaml": "~4.1.0",
-    "tree-sitter": "~0.20.1",
+    "tree-sitter": "~0.21.1",
     "tree-sitter-yaml": "~0.5.0"
   },
   "devDependencies": {
@@ -22,8 +22,8 @@
     "build-daemon": "find . | entr npm run build"
   },
   "engines": {
-    "node": "^16.13.0",
-    "npm": "8.x.x"
+    "node": "^20.15.1",
+    "npm": "10.x.x"
   },
   "keywords": [],
   "author": "",
