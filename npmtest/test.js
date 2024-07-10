@@ -16,6 +16,7 @@ dorun('pwd');
 dorun('ls -l');
 dorun('ls -l ..');
 dorun('ls -l ../..');
+dorun('ls /usr/local/bin');
 dorun('which node');
 dorun('which npm');
 dorun('node --version');
