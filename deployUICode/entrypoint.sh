@@ -8,8 +8,8 @@
 set -euo pipefail
 
 main() {
-    if [ "$#" -ne 4 ]; then
-        echo "Usage: ./$0 SRC_FILE DEST_DIRECTORY COLLECTIVE ENV"
+    if [ "$#" -lt 4 ] || [ "$#" -gt 5 ]; then
+        echo "Usage: ./$0 SRC_FILE DEST_DIRECTORY COLLECTIVE ENV [CDN_UNIQUENESS_SUFFIX]"
         exit 1;
     fi
 
@@ -17,6 +17,7 @@ main() {
     DEST_S3_BUCKET=$2
     COLLECTIVE=$3
     ENVIRONMENT=$4
+    CDN_UNIQUENESS_SUFFIX=${5:+-$5} # if the 5th argument is provided, prepend a - to it. Otherwise, gets set to the empty string.
 
     # Determine the directory
     DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
@@ -55,7 +56,7 @@ main() {
     #
     # Invalidate the cloudfront distribution cache
     #
-    distribution_id=$(aws cloudfront list-distributions | jq -r '.DistributionList.Items[] | select(.Comment == "'$COLLECTIVE-$ENVIRONMENT' CDN") | .Id')
+    distribution_id=$(aws cloudfront list-distributions | jq -r '.DistributionList.Items[] | select(.Comment == "'${COLLECTIVE}-${ENVIRONMENT}${CDN_UNIQUENESS_SUFFIX}' CDN") | .Id')
     invalidation_id=$(aws cloudfront create-invalidation --distribution-id $distribution_id --paths "/*" | jq -r .Invalidation.Id )
 
     echo -n "invalidating CloudFront cache..."
