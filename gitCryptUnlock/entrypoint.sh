@@ -7,7 +7,7 @@ echo "$GPG_PRIVATE_KEY" | base64 -d > "$HOME"/git-crypt-key.asc
 
 gpg --batch --import "$HOME"/git-crypt-key.asc
 
-gpgconf -v --kill gpg-agent
+gpgconf --kill gpg-agent
 
 gpg-agent -v --daemon --allow-preset-passphrase --max-cache-ttl 3153600000
 

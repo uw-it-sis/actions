@@ -1,5 +1,5 @@
 name: 'Validate Config repo'
 description: 'Validate a config repo'
 runs:
-  using: 'node20'
+  using: 'node16'
   main: 'dist/index.js'

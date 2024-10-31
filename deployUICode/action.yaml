@@ -13,6 +13,9 @@ inputs:
   environment:
     description: 'The name of the environment'
     required: true
+  cdn_uniqueness_suffix:
+    description: 'The cdn uniqueness suffix'
+    required: false
 
 runs:
   using: "composite"
@@ -24,4 +27,5 @@ runs:
           ${{ inputs.srcS3File }} \
           ${{ inputs.destS3Bucket }} \
           ${{ inputs.collective }} \
-          ${{ inputs.environment }}
+          ${{ inputs.environment }} \
+          ${{ inputs.cdn_uniqueness_suffix }}

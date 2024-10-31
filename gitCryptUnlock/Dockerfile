@@ -1,7 +1,6 @@
-FROM ubuntu:22.04
+FROM ubuntu:latest
 
-RUN apt-get update
-RUN apt-get install -y git-crypt
+RUN apt-get update && apt-get install -y git-crypt
 
 COPY LICENSE README.md /
 
