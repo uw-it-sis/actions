@@ -3,7 +3,7 @@
 const assert = require("chai").assert;
 const _ = require('underscore');
 
-const { validateStructure } = require('../src/validate');
+const { validateStructure } = require('../src/validations');
 
 const INVALID_STRUCTURES = [
     {app1: 'bar'}, // not deep enough
