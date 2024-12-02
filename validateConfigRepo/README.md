@@ -6,7 +6,7 @@ The dev flow is different for this repo: we build the "binary" locally using `nc
 source control. Ncc is similar to webpack in that it merges code and dependencies into a single javascript file. This is
 the workflow suggested by the [Github Actions documentation](https://docs.github.com/en/actions/creating-actions/creating-a-javascript-action#commit-tag-and-push-your-action-to-github).
 
-Note: Github requires actions to use node 16, so you'll need to run `nvm use 16` when building this project.
+Note: Github requires actions to use node 20, so you'll need to run `nvm use 20` when building this project.
 
 # Development
 - Make your changes

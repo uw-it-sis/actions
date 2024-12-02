@@ -13,7 +13,7 @@ const core = require('@actions/core'); // github actions
 const {
     validateStructure,
     validateMatchingConfigItems,
-    validateValueContents,
+    //validateValueContents,
 } = require('./validations');
 const Config = require('./Config');
 const Issue = require('./Issue');
@@ -67,6 +67,7 @@ function main() {
     // ]
     // issues.push(...mismatches);
 
+    /* TODO Disabling this check cuz there's a version compat issue with treesitter.
     // This check looks for dev/eval variables that might've been accidentally
     // committed to prod configs. For now, only check prod variables.
     let prodConfig = configs.find(c => c.file == 'prod/variables.yaml');
@@ -76,6 +77,7 @@ function main() {
     const invalidProdValues = ['dev', 'eval', 'test'];
     let prodInvalidValues = validateValueContents(prodConfig, invalidProdValues);
     issues.push(...prodInvalidValues);
+    */
 
     let fileErrors = groupIssuesByFile(issues);
 
