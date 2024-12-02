@@ -22,7 +22,11 @@ This document generally follows the formatting here: https://keepachangelog.com/
 * the
 ### Deprecated
 * possibilities
-* 
+
+## [ 1.5.0 ]
+### Changed
+* gitCryptUnlock to use ubuntu:22.04
+* validateConfigRepo to use node20
 ## [ 1.3.0 ]
 ### Added
 * resolvedConflictingArtifacts: Removes conflicting Maven packages before deploying.
