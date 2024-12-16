@@ -16,10 +16,10 @@ runs:
     - name: Checkout Source
       uses: actions/checkout@v4
 
-    - name: Setup NodeJS 18
+    - name: Setup NodeJS 22
       uses: actions/setup-node@v4
       with:
-        node-version: 18
+        node-version: 22
         registry-url: https://npm.pkg.github.com/
         scope: '@uw-it-sis'
 
