@@ -23,6 +23,11 @@ This document generally follows the formatting here: https://keepachangelog.com/
 ### Deprecated
 * possibilities
 
+## [ 2.0.0 ]
+### Changed
+* buildUI - *Potentially Breaking Change!* Updated to use NodeJs 22 for builds.  This breaks UIs that use node-sass as a dependency. This dependency has been deprecated by the authors since 2020 ( https://sass-lang.com/blog/libsass-is-deprecated/ )  A drop-in replacement suggested by them is the "Dart Sass" dependency: https://sass-lang.com/dart-sass/
+* buildAppApi - Updated to use NodeJs for builds.
+
 ## [ 1.5.0 ]
 ### Changed
 * gitCryptUnlock to use ubuntu:22.04
