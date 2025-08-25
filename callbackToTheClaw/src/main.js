@@ -35,7 +35,7 @@ async function main() {
     try {
         await client.doPut(url, {}); // No body to send, all of the info is in the URL
     } catch (e) {
-        console.log(`Error during build callback to The Claw: `, e);
+        throw new Error(`Error during build callback to The Claw`, {cause: e});
     }
 }
 
