@@ -24,10 +24,10 @@ runs:
     - name: Checkout Source
       uses: actions/checkout@v4
 
-    - name: Setup NodeJS 22
+    - name: Setup NodeJS 24
       uses: actions/setup-node@v4
       with:
-        node-version: 22
+        node-version: 24
         registry-url: https://npm.pkg.github.com/
         scope: '@uw-it-sis'
 
