@@ -1,0 +1,5 @@
+name: 'Validate Node Dependencies'
+description: 'Validate siscloud node dependencies'
+runs:
+  using: 'node20'
+  main: 'dist/index.js'
