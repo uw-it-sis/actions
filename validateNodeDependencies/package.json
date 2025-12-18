@@ -9,8 +9,7 @@
   "devDependencies": {
     "@vercel/ncc": "~0.38.4",
     "chai": "~6.2.1",
-    "mocha": "~11.7.5",
-    "underscore": "~1.13.7"
+    "mocha": "~11.7.5"
   },
   "scripts": {
     "_test": "npm run build; ./node_modules/.bin/mocha src/test",

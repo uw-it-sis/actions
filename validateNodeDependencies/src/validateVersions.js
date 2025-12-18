@@ -7,23 +7,16 @@
  */
 
 /**
- * @typedef {object} PackageVersion
- * @property {string} name
- * @property {VersionEntry[]} versions
- */
-
-/**
  * @typedef {object} ValidationIssue
- * @property {string} pathOne
- * @property {string} pathTwo
+ * @property {string} module
  * @property {string[]} versions
  */
 
 /**
- * Validate that the versions within the incoming PackageVersions for the given set of packages
+ * Validate that the versions within the incoming VersionEntry for the given set of packages
  * are all the same.
  *
- * @param {PackageVersion[]} packageVersions A collection of PackageVersion objects containing discovered version data
+ * @param {VersionEntry[]} packageVersions A collection of VersionEntry objects containing discovered version data
  * @param {string[]} packages list of packages for validation comparison
  *
  * @return {ValidationIssue[]} an array of validation issues describing mismatches, which is empty if all discovered versions are matching.
@@ -45,23 +38,18 @@ function validateIdenticalVersions(packageVersions, packages) {
         };
     }
 
-    for (const pv of packageVersions) {
-        if (pv.versions && pv.versions.length > 0) {
-            // check all versions for only the given set of packages
-            for (const entry of pv.versions.filter(e => packages.includes(e.name))) {
-                const discoveredVersion = discoveredVersions[entry.name].version;
-                if (discoveredVersion.length === 0) {
-                    discoveredVersions[entry.name] = { name: pv.name, version: entry.version };
-                }
-                else {
-                    if (discoveredVersion !== entry.version) {
-                        validationIssues.push({
-                            pathOne: discoveredVersions[entry.name].name,
-                            pathTwo: entry.name,
-                            versions: `${discoveredVersion} , ${entry.version}`
-                        });
-                    }
-                }
+    // check all versions for only the given set of packages
+    for (const entry of packageVersions.filter(e => packages.includes(e.name))) {
+        const discoveredVersion = discoveredVersions[entry.name].version;
+        if (discoveredVersion.length === 0) {
+            discoveredVersions[entry.name] = { name: entry.name, version: entry.version };
+        }
+        else {
+            if (discoveredVersion !== entry.version) {
+                validationIssues.push({
+                    module: entry.name,
+                    versions: `${discoveredVersion} , ${entry.version}`
+                });
             }
         }
     }

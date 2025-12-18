@@ -10,87 +10,37 @@ const MISMATCH_TESTS = [
     {
         name: 'One version different',
         testData: [
-            {
-                name: "root",
-                versions: [
-                    { name: "foo", version: "1.0.0" },
-                    { name: "bar", version: "1.0.0" },
-                    { name: "biz", version: "1.0.0" }
-                ]
-            },
-            {
-                name: "foo",
-                versions: [
-                    { name: "foo", version: "1.0.0" },
-                    { name: "bar", version: "1.0.0" },
-                    { name: "biz", version: "2.0.0" }
-                ]
-            }
+            { name: "foo", version: "1.0.0" },
+            { name: "bar", version: "1.0.0" },
+            { name: "biz", version: "1.0.0" },
+            { name: "biz", version: "2.0.0" }
         ]
     },
 
     {
-        name: 'Mulitple differences',
+        name: 'Multiple differences',
         testData: [
-            {
-                name: "root",
-                versions: [
-                    { name: "foo", version: "1.0.0" },
-                    { name: "bar", version: "1.5.0" },
-                    { name: "biz", version: "1.0.1" }
-                ]
-            },
-            {
-                name: "foo",
-                versions: [
-                    { name: "foo", version: "1.0.0" },
-                ]
-            },
-            {
-                name: "bar",
-                versions: [
-                    { name: "bar", version: "1.5.1" },
-                ]
-            },
-            {
-                name: "biz",
-                versions: [
-                    { name: "biz", version: "1.0.2" },
-                ]
-            }
+            { name: "foo", version: "1.0.0" },
+            { name: "bar", version: "1.5.0" },
+            { name: "biz", version: "1.0.1" },
+            { name: "bar", version: "1.5.1" },
+            { name: "biz", version: "1.0.2" }
         ]
     },
 
     {
-        name: 'All libs one version different',
+        name: 'Many unchecked different, only one checked different',
         testData: [
-            {
-                name: "root",
-                versions: [
-                    { name: "foo", version: "1.0.1" },
-                    { name: "bar", version: "1.0.1" },
-                    { name: "biz", version: "2.0.0" }
-                ]
-            },
-            {
-                name: "foo",
-                versions: [
-                    { name: "foo", version: "1.0.1" },
-                ]
-            },
-            {
-                name: "bar",
-                versions: [
-                    { name: "bar", version: "1.0.2" },
-                ]
-            },
-            {
-                name: "biz",
-                versions: [
-                    { name: "biz", version: "2.0.0" }
-                ]
-            }
-
+            { name: "foo", version: "1.0.1" },
+            { name: "f00", version: "5.0.0" },
+            { name: "f00", version: "5.5.0" },
+            { name: "---", version: "5.0.0" },
+            { name: "---", version: "0.0.0" },
+            { name: "007", version: "0.0.7" },
+            { name: "007", version: "1.0.7" },
+            { name: "bar", version: "1.0.1" },
+            { name: "foo", version: "1.0.2" },
+            { name: "biz", version: "2.0.0" }
         ]
     }
 ];
@@ -116,109 +66,47 @@ const MATCHING_TESTS = [
     {
         name: "One set of versions",
         testData: [
-            {
-                name: "root",
-                versions: [
-                    { name: "foo", version: "1.0.0" },
-                    { name: "bar", version: "1.0.0" },
-                    { name: "biz", version: "1.0.0" }
-                ]
-            }
+            { name: "foo", version: "1.0.0" },
+            { name: "bar", version: "1.0.0" },
+            { name: "biz", version: "1.0.0" }
         ]
     },
 
     {
-        name: "Equal versions",
+        name: "Multiple entries but all equal versions",
         testData: [
-            {
-                name: "root",
-                versions: [
-                    { name: "foo", version: "4.0.8" },
-                    { name: "bar", version: "3.0.7" },
-                    { name: "biz", version: "2.0.6" }
-                ]
-            },
-
-            {
-                name: "foo",
-                versions: [
-                    { name: "foo", version: "4.0.8" },
-                ]
-            },
-
-            {
-                name: "bar",
-                versions: [
-                    { name: "bar", version: "3.0.7" },
-                ]
-            },
-
-            {
-                name: "biz",
-                versions: [
-                    { name: "biz", version: "2.0.6" },
-                ]
-            }
+                { name: "foo", version: "4.0.8" },
+                { name: "bar", version: "3.0.7" },
+                { name: "foo", version: "4.0.8" },
+                { name: "bar", version: "3.0.7" },
+                { name: "biz", version: "2.0.6" },
+                { name: "biz", version: "2.0.6" },
         ]
     },
 
     {
-        name: "Equal versions including other packages",
+        name: "Equal versions including other non-matching packages",
         testData: [
-            {
-                name: "root",
-                versions: [
-                    { name: "foo", version: "4.0.8" },
-                    { name: "bar", version: "3.0.7" },
-                    { name: "biz", version: "2.0.6" },
-                    { name: "baz", version: "1.2.3" },
-                    { name: "boz", version: "4.5.6" }
-                ]
-            },
-
-            {
-                name: "foo",
-                versions: [
-                    { name: "foo", version: "4.0.8" },
-                ]
-            },
-
-            {
-                name: "bar",
-                versions: [
-                    { name: "bar", version: "3.0.7" },
-                ]
-            },
-
-            {
-                name: "biz",
-                versions: [
-                    { name: "biz", version: "2.0.6" },
-                ]
-            }
+                { name: "foo", version: "4.0.8" },
+                { name: "bar", version: "3.0.7" },
+                { name: "biz", version: "2.0.6" },
+                { name: "baz", version: "1.2.3" },
+                { name: "boz", version: "4.5.6" },
+                { name: "boz", version: "1" },
+                { name: "fie", version: "X" },
+                { name: "fie", version: "Y" }
         ]
     },
 
     {
         name: "Equal unconventional versions",
         testData: [
-            {
-                name: "root",
-                versions: [
-                    { name: "foo", version: "GREEN_EGGS_N_HAM" },
-                    { name: "bar", version: "4.2.3.1.0.RC-5.alpha" },
-                    { name: "biz", version: "@" }
-                ]
-            },
-
-            {
-                name: "foo",
-                versions: [
-                    { name: "foo", version: "GREEN_EGGS_N_HAM" },
-                    { name: "bar", version: "4.2.3.1.0.RC-5.alpha" },
-                    { name: "biz", version: "@" }
-                ]
-            }
+            { name: "foo", version: "GREEN_EGGS_N_HAM" },
+            { name: "bar", version: "4.2.3.1.0.RC-5.alpha" },
+            { name: "biz", version: "@" },
+            { name: "foo", version: "GREEN_EGGS_N_HAM" },
+            { name: "bar", version: "4.2.3.1.0.RC-5.alpha" },
+            { name: "biz", version: "@" }
         ]
     }
 ];
