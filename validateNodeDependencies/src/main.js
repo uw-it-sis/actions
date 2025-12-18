@@ -24,10 +24,10 @@ function main() {
 
     let fileData = {};
     try {
-        const rawInput = fs.readFileSync(`${workingDir}/package-lock.json`);
+        const rawInput = fs.readFileSync(`package-lock.json`);
         fileData = JSON.parse(rawInput);
     } catch (e) {
-        core.setFailed(`Error loading [ ${workingDir}/package-lock.json ] : ${e.message}`);
+        core.setFailed(`Error loading package-lock.json: ${e.message}`);
     }
 
     // search through the keys in the "packages" field to find any entries for the checked packages
