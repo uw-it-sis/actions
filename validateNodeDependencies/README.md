@@ -28,5 +28,5 @@ will automatically rebuild the binary any time a file is changed.
 ## Testing
 You can run the code locally against a javascript repo. Pass the directory path as the first argument, e.g.:
 ```
-node ./src/main.js ~/src/uw/app-plan
+node ./src/main.js ~/src/uw/app-plan/plan-app-api
 ```
