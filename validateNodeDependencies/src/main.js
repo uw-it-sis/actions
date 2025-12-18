@@ -14,8 +14,11 @@ const UW_PACKAGE_GROUP = "@uw-it-sis";
 const CHECKED_PACKAGES = ['lib-js-common', 'lib-react', 'lib-react-myplan', 'lib-lambda', 'lib-lambda-myplan'];
 
 function main() {
-    // Take the config repo path as the first argument, or default to cwd if not given.
-    let workingDir = process.argv[2] ?? process.cwd();
+    // Take the repo path as the named action input, the first command line argument, or default to cwd if not given.
+    let workingDir = core.getInput("workdir");
+    if (!workingDir) {
+        workingDir = process.argv[2] ?? process.cwd();
+    }
     process.chdir(workingDir);
     console.log(`Validating dependencies for repo: `, workingDir);
 

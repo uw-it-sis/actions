@@ -3,3 +3,7 @@ description: 'Validate siscloud node dependencies'
 runs:
   using: 'node20'
   main: 'dist/index.js'
+inputs:
+  workdir:
+    description: 'The directory to work from. Can be relative or absolute'
+    default: '.'
