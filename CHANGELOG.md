@@ -26,6 +26,9 @@ This document generally follows the formatting here: https://keepachangelog.com/
 ## [ 2.1.0 ]
 ### Added
 * validateNodeDependencies - Added new action to validate that siscloud libraries have consistent versions included in a Javascript npm build
+### Changed
+* buildUI - Updated to NodeJs 24
+* buildAppApi - Updated to NodeJs 24
 
 ## [ 2.0.0 ]
 ### Changed
