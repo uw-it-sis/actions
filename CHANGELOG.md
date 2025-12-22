@@ -29,6 +29,8 @@ This document generally follows the formatting here: https://keepachangelog.com/
 ### Changed
 * buildUI - Updated to NodeJs 24
 * buildAppApi - Updated to NodeJs 24
+* callbackToTheClaw - Updated to NodeJs 24
+* validateConfigRepo - Updated to NodeJs 24
 
 ## [ 2.0.0 ]
 ### Changed
