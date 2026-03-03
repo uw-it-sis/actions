@@ -53,7 +53,7 @@ for fileName in "${poms[@]}"; do
   fi
 
   if [[ -z "$groupId" ]]; then
-    groupId=$(xpath_query '/*[local-name()="project"]/*[local-name()="parent"]/*[local-name()="groupId"]/text()' "$fileName")
+    groupId=$(xmllint --xpath '/*[local-name()="project"]/*[local-name()="parent"]/*[local-name()="groupId"]/text()' $fileName 2>/dev/null)
   fi
 
   if [[ -z "$groupId" ]]; then
