@@ -1,5 +1,6 @@
 #!/bin/sh
 
+# Exit the script if a command fails or if an undefined variable is used
 set -eu
 
 # git doesn't like the ownership on the directory when running in docker, so tell it not to worry
