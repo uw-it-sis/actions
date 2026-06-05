@@ -1,6 +1,6 @@
 #!/bin/sh
 
-set -euo pipefail
+set -eu
 
 # git doesn't like the ownership on the directory when running in docker, so tell it not to worry
 git config --global --add safe.directory '*'
