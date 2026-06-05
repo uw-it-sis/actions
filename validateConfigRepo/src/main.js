@@ -5,7 +5,7 @@
  * It must be run from the config-* repo root
  */
 const yaml = require('js-yaml');
-const fs = require('fs');
+const fs = require('node:fs');
 const _ = require('underscore');
 
 const core = require('@actions/core'); // github actions
@@ -40,10 +40,14 @@ function main() {
             let configData = yaml.load(fs.readFileSync(file));
             return new Config(file, configData);
         } catch (e) {
-            issues.push(new Issue(
-                file,
-                `YAML parse error: ${e.reason} at line ${e.mark.line}, column ${e.mark.column}`,
-            ));
+            if (e.mark?.line && e.mark?.column) {
+                issues.push(new Issue(
+                    file,
+                    `YAML parse error: ${e.reason} at line ${e.mark?.line}, column ${e.mark?.column}`,
+                ));
+            } else {
+                issues.push(new Issue(file, `YAML parse error: ${e.reason}`));
+            }
         }
     }).filter(config => !_.isUndefined(config));
 
