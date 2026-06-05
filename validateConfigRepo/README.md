@@ -9,8 +9,8 @@ webpack in that it merges code and dependencies into a single javascript file.
 This is the workflow suggested by the [Github Actions
 documentation](https://docs.github.com/en/actions/creating-actions/creating-a-javascript-action#commit-tag-and-push-your-action-to-github).
 
-Note: Github requires actions to use node 24, so you'll need to run `nvm use 24`
-( if not using Node 24 locally ) when building this project.
+Note: Github requires actions to use node 24; this project has a mise.toml
+configured for node 24.
 
 # Development
 - Make your changes
