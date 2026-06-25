@@ -6,12 +6,18 @@
  *
  * It must be run from a Javascript application folder assumed to have already been built by npm.
  */
-const fs = require('fs');
+const fs = require('node:fs');
 const core = require('@actions/core');
 const {validateIdenticalVersions} = require("./validateVersions");
 
-const UW_PACKAGE_GROUP = "@uw-it-sis";
-const CHECKED_PACKAGES = ['lib-js-common', 'lib-react', 'lib-react-myplan', 'lib-lambda', 'lib-lambda-myplan'];
+const CHECKED_PACKAGES = [
+    '@uw-it-sis/lib-js-common',
+    '@uw-it-sis/lib-react',
+    '@uw-it-sis/lib-react-myplan',
+    '@uw-it-sis/lib-lambda',
+    '@uw-it-sis/lib-lambda-myplan',
+    'react-router-dom',
+];
 
 function main() {
     // Take the repo path as the named action input, the first command line argument, or default to cwd if not given.
@@ -22,21 +28,21 @@ function main() {
     process.chdir(workingDir);
     console.log(`Validating dependencies for repo: `, workingDir);
 
-    let fileData = {};
+    let packageLockJson = {};
     try {
         const rawInput = fs.readFileSync(`package-lock.json`);
-        fileData = JSON.parse(rawInput);
+        packageLockJson = JSON.parse(rawInput);
     } catch (e) {
         core.setFailed(`Error loading package-lock.json: ${e.message}`);
     }
 
     // search through the keys in the "packages" field to find any entries for the checked packages
     let discoveredVersions = [];
-    if (fileData.packages) {
-        Object.keys(fileData.packages).forEach(packageName => {
+    if (packageLockJson.packages) {
+        Object.keys(packageLockJson.packages).forEach(packagePath => {
             CHECKED_PACKAGES.forEach((checkedPackage) => {
-                if (packageName && packageName.length > 0 && packageName.endsWith(`${UW_PACKAGE_GROUP}/${checkedPackage}`)) {
-                    discoveredVersions.push({ name: checkedPackage, version: fileData.packages[packageName].version });
+                if (packagePath && packagePath.length > 0 && packagePath.endsWith(checkedPackage)) {
+                    discoveredVersions.push({ name: checkedPackage, version: packageLockJson.packages[packagePath].version });
                 }
             });
         });
