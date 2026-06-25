@@ -32,7 +32,7 @@ runs:
         scope: '@uw-it-sis'
 
     - name: Validate Node Dependencies
-      uses: uw-it-sis/actions/validateNodeDependencies@development
+      uses: uw-it-sis/actions/validateNodeDependencies@master
       with:
         workdir: ${{ inputs.workdir }}
 
