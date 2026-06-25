@@ -20,6 +20,7 @@ const CHECKED_PACKAGES = [
 ];
 
 function main() {
+    console.log(`process.cwd(): `, process.cwd())  // TODO DELETE ME
     // Take the repo path as the named action input, the first command line argument, or default to cwd if not given.
     let workingDir = core.getInput("workdir");
     if (!workingDir) {

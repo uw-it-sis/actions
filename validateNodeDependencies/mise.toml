@@ -1,0 +1,2 @@
+[tools]
+act = "latest" # Run your github actions locally
