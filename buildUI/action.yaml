@@ -33,6 +33,7 @@ runs:
 
     - name: Validate Node Dependencies
       uses: uw-it-sis/actions/validateNodeDependencies@development
+      working-directory: ${{ inputs.workdir }}
 
     - name: Install NPM dependencies
       shell: bash
