@@ -33,6 +33,9 @@ runs:
       run: |
         echo '{"checksum":"${{ steps.checksum.outputs.checksum }}"}' > src/main/resources/build_info.json
 
+    - name: Check for duplicate dependencies
+      uses: uw-it-sis/actions/find-duplicate-npm-dependencies@master
+
     - name: Install NPM dependencies
       shell: bash
       working-directory: ${{ inputs.workdir }}

@@ -1,0 +1,12 @@
+name: 'Find Duplicate NPM Dependencies'
+description: |
+  Certain dependencies can cause issues if node_modules contains multiple versions of the same package.
+
+  This action throws an error if it finds multiple versions of any dependency that is known to cause errors.
+
+runs:
+  using: 'composite'
+  steps:
+    - shell: bash
+      run: |
+        $GITHUB_ACTION_PATH/entrypoint.sh
