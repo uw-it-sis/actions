@@ -33,6 +33,9 @@ runs:
       run: |
         echo '{"checksum":"${{ steps.checksum.outputs.checksum }}"}' > src/main/resources/build_info.json
 
+    - name: Validate Node Dependencies
+      uses: uw-it-sis/actions/validateNodeDependencies@development
+
     - name: Install NPM dependencies
       shell: bash
       working-directory: ${{ inputs.workdir }}
